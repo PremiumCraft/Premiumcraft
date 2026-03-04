@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Premium Craft — Portale B2B HoReCa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+
+:root {
+  --gold:     #C8A035;
+  --gold-hi:  #DDB84A;
+  --gold-lo:  #9A7820;
+  --ink:      #080705;
+  --surface:  #0F0D0A;
+  --text:     #EDE8DE;
+  --muted:    #7A7265;
+  --border:   #221F18;
+  --acc:      #C8A035;
+  --acc2:     #DDB84A;
+  --price:    #DDB84A;
+  --hover:    rgba(200,160,53,0.04);
+  --b-bg:     rgba(200,160,53,0.10);
+  --b-bd:     rgba(200,160,53,0.28);
+  --radius:   2px;
+  --trans:    0.32s cubic-bezier(0.4,0,0.2,1);
+}
+
+body {
+  background:var(--ink); color:var(--text);
+  font-family:'Montserrat',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* grain overlay */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.032;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ambient glow behind content */
+body::after {
+  content:''; position:fixed; top:-30vh; left:50%; transform:translateX(-50%);
+  width:800px; height:400px;
+  background:radial-gradient(ellipse at center, rgba(200,160,53,0.06) 0%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+
+.page {
+  position:relative; z-index:1;
+  max-width:1100px; margin:0 auto;
+  padding:52px 44px 80px;
+}
+
+/* ── HEADER ──────────────────────────────────────────────────────────── */
+.header {
+  display:grid; grid-template-columns:1fr auto; align-items:end;
+  margin-bottom:36px;
+  animation:fadeDown 0.9s ease both;
+}
+.eyebrow {
+  font-size:9px; font-weight:700; letter-spacing:0.44em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:14px; display:flex; align-items:center; gap:10px;
+}
+.eyebrow::before {
+  content:''; display:block; width:24px; height:1px; background:var(--gold); opacity:0.5;
+}
+.brand {
+  font-family:'Cormorant Garamond',serif; font-weight:300;
+  font-size:clamp(44px,6vw,72px); letter-spacing:0.14em; line-height:0.95;
+  color:var(--text);
+}
+.brand em { color:var(--gold); font-style:normal; }
+.tagline {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:13.5px; color:var(--muted); letter-spacing:0.07em; margin-top:11px;
+  display:flex; align-items:center; gap:8px;
+}
+.tagline span { color:var(--border); }
+
+.header-right { text-align:right; padding-bottom:4px; }
+.contact-label {
+  font-size:8px; font-weight:700; letter-spacing:0.32em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:6px;
+}
+.contact-wa {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600;
+  color:var(--gold); text-decoration:none; letter-spacing:0.03em;
+  transition:color var(--trans);
+}
+.contact-wa:hover { color:var(--acc2); }
+.contact-wa svg { width:16px; height:16px; fill:currentColor; flex-shrink:0; }
+.contact-badge {
+  display:block; font-size:8px; font-weight:700; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--muted); margin-top:4px;
+}
+
+.hr-rule {
+  height:1px; margin-bottom:36px;
+  background:linear-gradient(90deg,transparent 0%,var(--acc) 25%,var(--acc2) 50%,var(--acc) 75%,transparent 100%);
+  position:relative;
+}
+.hr-rule::after {
+  content:'◆'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:8px; color:var(--acc2); background:var(--ink); padding:0 10px;
+}
+
+/* ── TABS ────────────────────────────────────────────────────────────── */
+.tabs {
+  display:flex; justify-content:center; align-items:stretch;
+  margin-bottom:40px; gap:0;
+  border:1px solid var(--border); padding:0;
+  animation:fadeUp 0.8s 0.18s ease both;
+}
+.tab-btn {
+  position:relative; background:none; border:none; cursor:pointer;
+  padding:15px 48px; flex:1;
+  font-family:'Montserrat',sans-serif; font-size:10px;
+  font-weight:700; letter-spacing:0.26em; text-transform:uppercase;
+  color:var(--muted); transition:color var(--trans), background var(--trans);
+  display:flex; align-items:center; justify-content:center; gap:9px;
+}
+.tab-btn::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  background:var(--acc); transform:scaleX(0); transform-origin:center;
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.tab-btn:hover { color:var(--text); background:var(--hover); }
+.tab-btn.active { color:var(--acc2); }
+.tab-btn.active::after { transform:scaleX(1); }
+.tab-sep { width:1px; background:var(--border); flex-shrink:0; }
+.tab-icon { font-size:14px; opacity:0.7; }
+
+/* ── PANELS ──────────────────────────────────────────────────────────── */
+.tab-panel { display:none; }
+.tab-panel.active { display:block; animation:fadeUp 0.4s ease both; }
+
+/* ── SECTION HEADER ──────────────────────────────────────────────────── */
+.sec-wrap { margin-bottom:28px; }
+.sec-head { display:flex; align-items:baseline; gap:14px; margin-bottom:4px; }
+.sec-title {
+  font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600;
+  color:var(--text); letter-spacing:0.04em;
+}
+.sec-tag {
+  font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--acc);
+}
+.sec-rule {
+  height:1px; margin-bottom:0;
+  background:linear-gradient(90deg,var(--acc) 0%,rgba(200,160,53,0.08) 50%,transparent 100%);
+}
+.sec-pitch {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:14px; color:var(--muted); line-height:1.6; margin-top:10px;
+  padding-left:16px; border-left:2px solid rgba(200,160,53,0.3);
+}
+
+/* ── CARDS ───────────────────────────────────────────────────────────── */
+.grid { display:grid; gap:0; }
+.grid-2col { grid-template-columns:1fr 1fr; }
+.grid-2col .card:nth-child(odd) { border-right:1px solid var(--border); }
+
+.card {
+  display:grid; grid-template-columns:1fr auto; gap:24px;
+  padding:22px 26px;
+  border-top:1px solid var(--border);
+  position:relative; overflow:hidden;
+  transition:background var(--trans);
+}
+.card:last-child { border-bottom:1px solid var(--border); }
+.card::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:var(--acc); transform:scaleY(0); transform-origin:top;
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.card:hover { background:var(--hover); }
+.card:hover::before { transform:scaleY(1); }
+
+.c-name {
+  font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:600;
+  color:var(--text); letter-spacing:0.03em; margin-bottom:3px;
+}
+.c-sub {
+  font-size:8.5px; font-weight:700; letter-spacing:0.20em; text-transform:uppercase;
+  color:var(--acc); margin-bottom:9px;
+}
+.c-pitch {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:14px; color:var(--muted); line-height:1.6; max-width:520px;
+}
+.c-pitch strong { font-style:normal; color:var(--text); font-weight:600; }
+
+.badge-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.badge {
+  display:inline-block; padding:3px 9px;
+  font-size:8px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--acc); background:var(--b-bg); border:1px solid var(--b-bd);
+  border-radius:var(--radius);
+}
+
+/* ── PITCH CALLOUT ───────────────────────────────────────────────────── */
+.pitch-callout {
+  margin-top:11px; padding:8px 12px;
+  background:rgba(200,160,53,0.05); border-left:2px solid var(--acc);
+  display:flex; align-items:flex-start; gap:8px;
+}
+.pitch-icon { font-size:11px; color:var(--acc); flex-shrink:0; margin-top:1px; }
+.pitch-label {
+  font-size:8px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--acc); margin-bottom:2px;
+}
+.pitch-text { font-size:11px; color:var(--muted); line-height:1.45; }
+
+/* ── PRICE BLOCK ─────────────────────────────────────────────────────── */
+.price-block {
+  min-width:170px; display:flex; flex-direction:column;
+  justify-content:center; gap:12px;
+}
+.p-row { display:flex; flex-direction:column; align-items:flex-end; gap:1px; }
+.p-label {
+  font-size:8px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--muted);
+}
+.p-net   { font-size:12px; color:var(--muted); }
+.p-gross {
+  font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700;
+  color:var(--price); line-height:1;
+}
+.p-div { width:28px; height:1px; background:var(--border); margin-left:auto; }
+.dual  { display:flex; flex-direction:column; gap:10px; }
+.d-row { display:flex; flex-direction:column; align-items:flex-end; gap:1px; }
+.d-tag {
+  font-size:7.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted); opacity:0.55;
+}
+
+/* Margin Calc Button */
+.calc-btn {
+  display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+  padding:5px 11px; background:none;
+  border:1px solid rgba(200,160,53,0.3); border-radius:var(--radius);
+  font-family:'Montserrat',sans-serif; font-size:8px; font-weight:700;
+  letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--acc); cursor:pointer;
+  transition:all var(--trans);
+}
+.calc-btn:hover { background:var(--b-bg); border-color:var(--acc); }
+.calc-btn svg { width:10px; height:10px; fill:currentColor; }
+
+/* WA Order Button */
+.wa-btn {
+  display:inline-flex; align-items:center; gap:7px; margin-top:8px;
+  padding:8px 14px;
+  background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.3);
+  border-radius:var(--radius); cursor:pointer;
+  font-family:'Montserrat',sans-serif; font-size:8px; font-weight:700;
+  letter-spacing:0.18em; text-transform:uppercase;
+  color:#4DCB78; text-decoration:none;
+  transition:all var(--trans);
+}
+.wa-btn:hover { background:rgba(37,211,102,0.18); border-color:rgba(37,211,102,0.5); }
+.wa-btn svg { width:11px; height:11px; fill:currentColor; flex-shrink:0; }
+
+/* ── MARGIN CALCULATOR MODAL ─────────────────────────────────────────── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:1000;
+  background:rgba(4,3,2,0.88); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.3s ease;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+
+.modal {
+  background:var(--surface); border:1px solid var(--border);
+  max-width:420px; width:100%; position:relative;
+  padding:32px; box-shadow:0 40px 80px rgba(0,0,0,0.6);
+  transform:translateY(16px) scale(0.98);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.modal-overlay.open .modal { transform:translateY(0) scale(1); }
+.modal::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(180deg,var(--gold) 0%,rgba(200,160,53,0.3) 100%);
+}
+
+.modal-eyebrow {
+  font-size:8px; font-weight:700; letter-spacing:0.34em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:6px;
+}
+.modal-title {
+  font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600;
+  color:var(--text); margin-bottom:20px; letter-spacing:0.03em;
+}
+.modal-close {
+  position:absolute; top:16px; right:18px;
+  background:none; border:none; color:var(--muted); cursor:pointer;
+  font-size:18px; line-height:1; padding:4px; transition:color var(--trans);
+}
+.modal-close:hover { color:var(--text); }
+
+.calc-input-wrap { margin-bottom:18px; }
+.calc-label {
+  font-size:9px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:7px; display:block;
+}
+.calc-input-row { display:flex; align-items:center; gap:0; }
+.calc-currency {
+  padding:10px 12px;
+  background:rgba(200,160,53,0.07); border:1px solid var(--border); border-right:none;
+  font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--acc);
+}
+.calc-input {
+  flex:1; padding:10px 14px;
+  background:#0F0D0A; border:1px solid var(--border);
+  font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600;
+  color:var(--text); outline:none;
+  transition:border-color var(--trans);
+}
+.calc-input:focus { border-color:var(--acc); }
+
+.calc-results { margin-top:22px; display:flex; flex-direction:column; gap:0; }
+.calc-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 14px; border-top:1px solid var(--border);
+}
+.calc-row:last-child { border-bottom:1px solid var(--border); }
+.calc-row-label { font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); }
+.calc-row-val { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:700; color:var(--text); }
+.calc-row-val.highlight { color:var(--acc2); font-size:24px; }
+.calc-row-val.good { color:#4DCB78; }
+.calc-row-val.warn { color:#E0A040; }
+
+.calc-divider { height:1px; background:var(--border); margin:10px 0; }
+.calc-note { font-size:10px; color:var(--muted); line-height:1.5; margin-top:14px; font-style:italic; font-family:'Cormorant Garamond',serif; }
+
+/* ── BIRRE CONFIGURATOR ──────────────────────────────────────────────── */
+.config-wrap {
+  border:1px solid var(--border); margin-bottom:4px;
+  background:rgba(200,150,32,0.018);
+}
+.config-header {
+  display:flex; align-items:center; gap:16px;
+  padding:14px 20px; border-bottom:1px solid var(--border);
+  flex-wrap:wrap; gap:10px;
+}
+.config-title {
+  font-size:9px; font-weight:700; letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--acc); flex:1;
+}
+.config-progress-wrap { flex:1; min-width:140px; }
+.config-progress-label {
+  display:flex; justify-content:space-between;
+  font-size:8px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:5px;
+}
+.config-progress-track {
+  height:3px; background:var(--border); position:relative; overflow:hidden;
+}
+.config-progress-fill {
+  height:100%; background:linear-gradient(90deg,var(--acc),var(--acc2));
+  transition:width 0.5s cubic-bezier(0.4,0,0.2,1);
+  width:0%;
+}
+.config-msg {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:12.5px; color:var(--muted); padding:8px 20px 10px;
+  border-bottom:1px solid var(--border); min-height:32px;
+  transition:color 0.3s;
+}
+.config-msg.ready { color:var(--acc2); font-style:normal; font-weight:600; }
+
+.config-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; }
+.config-item {
+  padding:14px 16px; border-right:1px solid var(--border); border-bottom:1px solid var(--border);
+}
+.config-item:nth-child(3n) { border-right:none; }
+.config-item:nth-last-child(-n+3) { border-bottom:none; }
+.config-item-name {
+  font-family:'Cormorant Garamond',serif; font-size:14px; font-weight:600;
+  color:var(--text); margin-bottom:2px;
+}
+.config-item-sub {
+  font-size:8px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:10px;
+}
+.counter {
+  display:flex; align-items:center; gap:0; border:1px solid var(--border);
+  width:fit-content;
+}
+.counter-btn {
+  width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+  background:none; border:none; cursor:pointer;
+  color:var(--muted); font-size:16px; line-height:1;
+  transition:all var(--trans);
+}
+.counter-btn:hover { background:var(--hover); color:var(--text); }
+.counter-val {
+  width:32px; text-align:center;
+  font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600;
+  color:var(--text); border-left:1px solid var(--border); border-right:1px solid var(--border);
+  padding:4px 0;
+}
+
+.config-footer {
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  padding:14px 20px;
+}
+.config-total {
+  display:flex; flex-direction:column;
+}
+.config-total-label { font-size:8px; font-weight:700; letter-spacing:0.20em; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+.config-total-val {
+  font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700;
+  color:var(--price);
+}
+.config-total-sub { font-size:9px; color:var(--muted); margin-top:1px; }
+
+.config-order-btn {
+  display:inline-flex; align-items:center; gap:9px;
+  padding:12px 22px;
+  font-family:'Montserrat',sans-serif; font-size:9px; font-weight:700;
+  letter-spacing:0.22em; text-transform:uppercase;
+  border-radius:var(--radius); cursor:pointer; text-decoration:none;
+  transition:all var(--trans);
+  background:rgba(37,211,102,0.12); border:1px solid rgba(37,211,102,0.35);
+  color:#4DCB78;
+  opacity:0.4; pointer-events:none;
+}
+.config-order-btn.active { opacity:1; pointer-events:all; }
+.config-order-btn:hover.active { background:rgba(37,211,102,0.2); }
+.config-order-btn svg { width:13px; height:13px; fill:currentColor; }
+
+/* ── BIRRA CARDS (listino) ───────────────────────────────────────────── */
+.birra-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:28px; }
+.birra-card {
+  padding:18px 22px; border-top:1px solid var(--border);
+  position:relative; overflow:hidden;
+  transition:background var(--trans);
+}
+.birra-card:nth-child(odd) { border-right:1px solid var(--border); }
+.birra-card:last-child, .birra-card:nth-last-child(2):nth-child(odd) { border-bottom:1px solid var(--border); }
+.birra-card::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  transform:scaleY(0); transform-origin:top;
+  transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);
+}
+.birra-card:hover { background:var(--hover); }
+.birra-card:hover::before { transform:scaleY(1); }
+.birra-card-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+.birra-abv {
+  font-family:'Cormorant Garamond',serif; font-size:13px;
+  color:var(--muted); margin-top:1px; margin-bottom:7px; letter-spacing:0.04em;
+}
+
+/* ── WHY STRIP ───────────────────────────────────────────────────────── */
+.why-strip {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  margin-top:28px;
+  border:1px solid var(--border);
+}
+.why-item { padding:18px 20px; border-right:1px solid var(--border); }
+.why-item:last-child { border-right:none; }
+.why-kpi {
+  font-size:8px; font-weight:700; letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:7px; display:flex; align-items:center; gap:7px;
+}
+.why-kpi::before { content:''; display:block; width:12px; height:1px; background:var(--gold); opacity:0.5; }
+.why-title {
+  font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:600;
+  color:var(--text); line-height:1.3; margin-bottom:7px;
+}
+.why-text { font-size:10.5px; color:var(--muted); line-height:1.58; }
+
+/* ── BRAND STORY ─────────────────────────────────────────────────────── */
+.brand-story {
+  margin-top:52px; position:relative;
+}
+.brand-story-eyebrow {
+  font-size:9px; font-weight:700; letter-spacing:0.44em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:10px;
+}
+.brand-story-eyebrow::before { content:''; display:block; width:24px; height:1px; background:var(--gold); opacity:0.5; }
+.brand-story-eyebrow::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent); }
+
+.story-grid {
+  display:grid; grid-template-columns:1fr 340px; gap:0;
+  border:1px solid var(--border);
+}
+.story-main {
+  padding:32px 36px; border-right:1px solid var(--border);
+  position:relative; overflow:hidden;
+}
+.story-main::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(180deg,var(--gold) 0%,rgba(200,160,53,0.15) 100%);
+}
+.story-title {
+  font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300;
+  color:var(--text); letter-spacing:0.04em; line-height:1.2; margin-bottom:18px;
+}
+.story-title em { color:var(--gold); font-style:normal; }
+.story-body {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:15px; color:var(--muted); line-height:1.72;
+}
+.story-body strong { font-style:normal; font-weight:600; color:var(--text); }
+.story-body p { margin-bottom:14px; }
+.story-body p:last-child { margin-bottom:0; }
+.story-claims {
+  display:flex; flex-wrap:wrap; gap:8px; margin-top:20px;
+}
+.story-claim {
+  padding:4px 12px; border:1px solid var(--b-bd);
+  background:var(--b-bg);
+  font-size:8.5px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--acc);
+}
+
+.story-side { padding:28px 24px; display:flex; flex-direction:column; justify-content:space-between; gap:24px; }
+.story-facts { display:flex; flex-direction:column; gap:20px; }
+.fact-item {
+  padding-bottom:20px; border-bottom:1px solid var(--border);
+}
+.fact-item:last-child { border-bottom:none; padding-bottom:0; }
+.fact-val {
+  font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:700;
+  color:var(--gold); line-height:1; letter-spacing:-0.01em;
+}
+.fact-lbl {
+  font-size:8px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--muted); margin-top:3px;
+}
+.fact-desc { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.4; }
+
+.story-cta {
+  display:flex; flex-direction:column; gap:10px;
+  padding-top:20px; border-top:1px solid var(--border);
+}
+.story-cta-label {
+  font-size:8px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--muted);
+}
+.story-wa-btn {
+  display:inline-flex; align-items:center; gap:9px;
+  padding:13px 20px;
+  background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.3);
+  color:#4DCB78; text-decoration:none;
+  font-family:'Montserrat',sans-serif; font-size:9px; font-weight:700;
+  letter-spacing:0.20em; text-transform:uppercase;
+  transition:all var(--trans); cursor:pointer;
+}
+.story-wa-btn:hover { background:rgba(37,211,102,0.18); border-color:rgba(37,211,102,0.5); }
+.story-wa-btn svg { width:14px; height:14px; fill:currentColor; }
+
+/* ── BOX BANNER ──────────────────────────────────────────────────────── */
+.box-banner {
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  padding:13px 22px; margin-bottom:0;
+  border:1px solid var(--border); background:rgba(200,150,32,0.03);
+}
+.box-lbl {
+  font-size:8.5px; font-weight:700; letter-spacing:0.20em; text-transform:uppercase;
+  color:var(--acc); margin-bottom:4px;
+}
+.box-note {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:13px; color:var(--muted);
+}
+.box-price { text-align:right; flex-shrink:0; }
+.box-big {
+  font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:700; color:var(--price);
+}
+.box-small { font-size:9px; color:var(--muted); margin-top:2px; }
+
+/* ── FOOTER ──────────────────────────────────────────────────────────── */
+.footer {
+  margin-top:36px; padding-top:16px;
+  border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+  font-size:8.5px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--muted); opacity:0.55;
+}
+.footer a { color:inherit; text-decoration:none; transition:opacity var(--trans); }
+.footer a:hover { opacity:1; }
+
+/* ── THEME COLORS ────────────────────────────────────────────────────── */
+body.theme-gin {
+  --ink:#080C12; --surface:#0B0F18; --border:#1A2236; --muted:#7280A0;
+  --acc:#4878CC; --acc2:#79A6E8; --price:#79A6E8;
+  --hover:rgba(72,120,204,0.05); --b-bg:rgba(72,120,204,0.10); --b-bd:rgba(72,120,204,0.28);
+}
+body.theme-amaro {
+  --ink:#0A0606; --surface:#120808; --border:#2C1414; --muted:#8A7272;
+  --acc:#C42B1A; --acc2:#E04832; --price:#E07850;
+  --hover:rgba(196,43,26,0.05); --b-bg:rgba(196,43,26,0.10); --b-bd:rgba(196,43,26,0.30);
+}
+body.theme-birre {
+  --ink:#0C0B07; --surface:#100F09; --border:#2A2610; --muted:#8A8268;
+  --acc:#C89620; --acc2:#E0B038; --price:#E0B038;
+  --hover:rgba(200,150,32,0.04); --b-bg:rgba(200,150,32,0.10); --b-bd:rgba(200,150,32,0.28);
+}
+
+/* Per-beer accent colors */
+.bk-ipazza   { --bc:#7EC830; --bp:#A0E048; }
+.bk-rockipa  { --bc:#B080E0; --bp:#C8A0F0; }
+.bk-paleale  { --bc:#D4A020; --bp:#ECC040; }
+.bk-scemay   { --bc:#C05A28; --bp:#E08048; }
+.bk-imperial { --bc:#C8B060; --bp:#E0CC80; }
+.bk-tripel   { --bc:#D06840; --bp:#E89060; }
+
+.birra-card .c-sub        { color:var(--bc,var(--acc)) !important; }
+.birra-card::before       { background:var(--bc,var(--acc)) !important; }
+.birra-card .p-gross      { color:var(--bp,var(--price)) !important; }
+.birra-card .badge        { color:var(--bc,var(--acc)) !important; background:rgba(128,128,128,0.07) !important; border-color:rgba(128,128,128,0.2) !important; }
+.config-item .counter-val { color:var(--bp,var(--price)); }
+
+/* Gin variant accents */
+.gin-med .c-sub { color:var(--gold) !important; }
+.gin-med .badge { color:var(--gold) !important; }
+.gin-med::before { background:#4878CC !important; }
+.gin-trop .c-sub { color:var(--gold) !important; }
+.gin-trop .badge { color:#4A9E3A !important; background:rgba(74,158,58,0.10) !important; border-color:rgba(74,158,58,0.28) !important; }
+.gin-trop .card::before { background:#4A9E3A !important; }
+.gin-trop .p-gross { color:#72C85A !important; }
+
+/* ── ANIMATIONS ──────────────────────────────────────────────────────── */
+@keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp   { from{opacity:0;transform:translateY(14px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:0.65} }
+
+.tab-panel.active .card,
+.tab-panel.active .birra-card { animation:fadeUp 0.38s ease both; }
+.tab-panel.active .card:nth-child(1),
+.tab-panel.active .birra-card:nth-child(1){animation-delay:0s}
+.tab-panel.active .card:nth-child(2),
+.tab-panel.active .birra-card:nth-child(2){animation-delay:0.06s}
+.tab-panel.active .card:nth-child(3),
+.tab-panel.active .birra-card:nth-child(3){animation-delay:0.11s}
+.tab-panel.active .card:nth-child(4),
+.tab-panel.active .birra-card:nth-child(4){animation-delay:0.16s}
+.tab-panel.active .card:nth-child(5),
+.tab-panel.active .birra-card:nth-child(5){animation-delay:0.21s}
+.tab-panel.active .card:nth-child(6),
+.tab-panel.active .birra-card:nth-child(6){animation-delay:0.26s}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────── */
+@media (max-width:780px) {
+  .page { padding:28px 16px 60px; }
+  .header { grid-template-columns:1fr; gap:16px; }
+  .header-right { text-align:left; }
+  .grid-2col { grid-template-columns:1fr; }
+  .grid-2col .card:nth-child(odd) { border-right:none; }
+  .card { grid-template-columns:1fr; gap:16px; }
+  .price-block { min-width:0; }
+  .p-row,.d-row { align-items:flex-start; }
+  .why-strip { grid-template-columns:1fr; }
+  .why-item { border-right:none; border-bottom:1px solid var(--border); }
+  .why-item:last-child { border-bottom:none; }
+  .story-grid { grid-template-columns:1fr; }
+  .story-main { border-right:none; border-bottom:1px solid var(--border); }
+  .story-facts { flex-direction:row; flex-wrap:wrap; gap:20px; }
+  .fact-item { padding-bottom:0; border-bottom:none; }
+  .tab-btn { padding:12px 14px; font-size:9px; }
+  .tab-icon { display:none; }
+  .birra-grid { grid-template-columns:1fr; }
+  .birra-card:nth-child(odd) { border-right:none; }
+  .config-grid { grid-template-columns:repeat(2,1fr); }
+  .config-item:nth-child(2n) { border-right:none; }
+  .config-item:nth-child(3n) { border-right:1px solid var(--border); }
+  .config-item:nth-child(2n):last-child { border-right:none; }
+  .modal { padding:24px; }
+}
+
+/* ── PRINT ───────────────────────────────────────────────────────────── */
+@media print {
+  @page { size:A4 portrait; margin:12mm 12mm; }
+  body::before, body::after { display:none !important; }
+  * { animation:none !important; transition:none !important;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .tabs, .modal-overlay, .config-wrap, .calc-btn, .wa-btn, .config-order-btn, .story-wa-btn { display:none !important; }
+  .tab-panel { display:block !important; }
+  #panel-amaro, #panel-birre { page-break-before:always; }
+  .card, .birra-card, .why-strip, .brand-story { page-break-inside:avoid; }
+  .page { padding:0; }
+  .footer { opacity:1 !important; }
+}
+</style>
+</head>
+
+<body class="theme-gin">
+<div class="page">
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+<header class="header">
+  <div class="header-left">
+    <div class="eyebrow">Sales Sheet · HoReCa · Riservato</div>
+    <div class="brand"><em>Premium</em> Craft</div>
+    <div class="tagline">
+      Spirits <span>·</span> Bitters <span>·</span> Craft Beer
+      <span>·</span> Produzione Propria <span>·</span> Sud Italia
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="contact-label">Ordini &amp; Info</div>
+    <a href="https://wa.me/393516513239" class="contact-wa" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.851L0 24l6.305-1.513A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.369l-.36-.213-3.722.893.933-3.617-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+      +39 351 651 3239
+    </a>
+    <span class="contact-badge">Risposta garantita in giornata</span>
+  </div>
+</header>
+<div class="hr-rule"></div>
+
+<!-- ══ TABS ════════════════════════════════════════════════════════════ -->
+<nav class="tabs" role="tablist" aria-label="Categorie prodotto">
+  <button class="tab-btn active" data-tab="gin"   data-theme="theme-gin"   role="tab" aria-selected="true">
+    <span class="tab-icon">◆</span>Gin
+  </button>
+  <div class="tab-sep"></div>
+  <button class="tab-btn" data-tab="amaro" data-theme="theme-amaro" role="tab" aria-selected="false">
+    <span class="tab-icon">◆</span>Amaro
+  </button>
+  <div class="tab-sep"></div>
+  <button class="tab-btn" data-tab="birre" data-theme="theme-birre" role="tab" aria-selected="false">
+    <span class="tab-icon">◆</span>Birre Craft
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PANEL: GIN
+════════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel active" id="panel-gin" role="tabpanel">
+
+  <div class="sec-wrap">
+    <div class="sec-head">
+      <div class="sec-title">Trupija Gin</div>
+      <div class="sec-tag">Dry Gin · 70 cl · 41% Vol. · Zero Zuccheri</div>
+    </div>
+    <div class="sec-rule"></div>
+    <div class="sec-pitch">
+      Due referenze complementari. Zero zuccheri su entrambe. Un gin tecnico che si ordina per nome — 
+      non perché lo staff lo spinga, ma perché il prodotto fa il lavoro da solo.
+    </div>
+  </div>
+
+  <div class="grid grid-2col">
+
+    <!-- MEDITERRANEO -->
+    <div class="card gin-med">
+      <div>
+        <div class="c-name">Trupija "Mediterraneo"</div>
+        <div class="c-sub">Blue Label · Dry Gin · 41% Vol. · 70 cl</div>
+        <div class="c-pitch">
+          Ginepro, Rosmarino e Salvia selvatici del Sud Italia. Profilo erbaceo-salino,
+          secco senza correzioni. Il gin da bancone che si ordina per nome —
+          <strong>G&T identitario, Dry Martini, Negroni</strong>.
+        </div>
+        <div class="pitch-callout">
+          <span class="pitch-icon">💬</span>
+          <div>
+            <div class="pitch-label">Pitch per il cameriere</div>
+            <div class="pitch-text">"Gin artigianale del Sud, botaniche selvatiche, zero zuccheri — diverso da tutto il resto."</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge">Dry</span>
+          <span class="badge">Botaniche Selvatiche</span>
+          <span class="badge">Zero Zuccheri</span>
+        </div>
+      </div>
+      <div class="price-block">
+        <div class="p-row">
+          <div class="p-label">Imponibile</div>
+          <div class="p-net">€ 27,50</div>
+        </div>
+        <div class="p-div"></div>
+        <div class="p-row">
+          <div class="p-label">Ivato 22%</div>
+          <div class="p-gross">€ 33,55</div>
+        </div>
+        <button class="calc-btn" data-product="Trupija Mediterraneo" data-cost="27.50" data-type="gin" onclick="openCalc(this)">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+          Calcola margine
+        </button>
+        <a class="wa-btn" href="#" onclick="sendWA('Trupija Mediterraneo Gin','1 bottiglia','gin'); return false;">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.851L0 24l6.305-1.513A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.369l-.36-.213-3.722.893.933-3.617-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+          Richiedi campionatura
+        </a>
+      </div>
+    </div>
+
+    <!-- TROPICALE -->
+    <div class="card gin-trop">
+      <div>
+        <div class="c-name">Trupija "Tropicale"</div>
+        <div class="c-sub">Green Label · Gin · 41% Vol. · 70 cl · Zero Zuccheri</div>
+        <div class="c-pitch">
+          Botaniche tropicali al naso, completamente secco in bocca.
+          L'unico gin del segmento con questo contrasto — non è un flavoured,
+          è un gin tecnico. <strong>Zero zuccheri: tre parole che chiudono la vendita.</strong>
+        </div>
+        <div class="pitch-callout">
+          <span class="pitch-icon">💬</span>
+          <div>
+            <div class="pitch-label">Pitch per il cameriere</div>
+            <div class="pitch-text">"Profumo tropicale, secco come un London Dry — unico nel segmento, zero zuccheri."</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge">Zero Zuccheri</span>
+          <span class="badge">Dry</span>
+          <span class="badge">Gin Tecnico</span>
+        </div>
+      </div>
+      <div class="price-block">
+        <div class="p-row">
+          <div class="p-label">Imponibile</div>
+          <div class="p-net">€ 27,50</div>
+        </div>
+        <div class="p-div"></div>
+        <div class="p-row">
+          <div class="p-label">Ivato 22%</div>
+          <div class="p-gross">€ 33,55</div>
+        </div>
+        <button class="calc-btn" data-product="Trupija Tropicale" data-cost="27.50" data-type="gin" onclick="openCalc(this)">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+          Calcola margine
+        </button>
+        <a class="wa-btn" href="#" onclick="sendWA('Trupija Tropicale Gin','1 bottiglia','gin'); return false;">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.851L0 24l6.305-1.513A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.369l-.36-.213-3.722.893.933-3.617-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+          Richiedi campionatura
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="why-strip">
+    <div class="why-item">
+      <div class="why-kpi">Rotazione</div>
+      <div class="why-title">Due profili, clienti diversi</div>
+      <div class="why-text">Mediterraneo per chi cerca complessità erbacea. Tropicale per chi vuole uscire dagli standard senza uscire dal gin. Non si cannibalizzano — coprono turni e palati diversi sullo stesso back-bar.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-kpi">Argomento di carta</div>
+      <div class="why-title">Zero zuccheri su entrambi</div>
+      <div class="why-text">Il cameriere ha il suo pitch in cinque parole. Risponde alla domanda crescente di spirits low-intervention senza richiedere formazione — il posizionamento fa il lavoro da solo.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-kpi">Margine</div>
+      <div class="why-title">€ 27,50 netto · prezzo premium</div>
+      <div class="why-text">Costo d'acquisto contenuto su un posizionamento premium verificabile. Il prezzo al bicchiere regge senza sconti — il prodotto giustifica se stesso al tavolo.</div>
+    </div>
+  </div>
+
+</div><!-- /panel-gin -->
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PANEL: AMARO
+════════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-amaro" role="tabpanel">
+
+  <div class="sec-wrap">
+    <div class="sec-head">
+      <div class="sec-title">Amaro QNK Cuncappa</div>
+      <div class="sec-tag">Amaro Artigianale · 70 cl · 30% Vol. · Sugar Free</div>
+    </div>
+    <div class="sec-rule"></div>
+    <div class="sec-pitch">
+      L'unico amaro artigianale italiano con profilo sugar-free sul mercato. 
+      Un claim che non ha bisogno di essere spiegato — e che non ha concorrenti diretti.
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card" style="--card-before-bg:#C42B1A;">
+      <div>
+        <div class="c-name">QNK "Cuncappa"</div>
+        <div class="c-sub">30% Vol. · Sugar Free · Non Filtrato · 70 cl · Con o senza astuccio</div>
+        <div class="c-pitch">
+          Rabarbaro, Genziana, Anice Nero, Assenzio. Struttura amara secca —
+          nessuno zucchero usato come bilanciamento, nessuna dolcezza artificiale.
+          Nel segmento amaro artigianale italiano <strong>non esiste un competitor con lo stesso profilo</strong>.
+          Liscio su ghiaccio nel dopocena. Base cocktail: Paper Plane, Black Manhattan, Spritz alternativo.
+        </div>
+        <div class="pitch-callout" style="border-left-color:rgba(196,43,26,0.6);">
+          <span class="pitch-icon">💬</span>
+          <div>
+            <div class="pitch-label" style="color:#C42B1A;">Pitch per il cameriere</div>
+            <div class="pitch-text">"Amaro artigianale pugliese, completamente sugar-free — non lo trovi in nessun altro locale."</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge" style="color:#C42B1A;background:rgba(196,43,26,0.1);border-color:rgba(196,43,26,0.3);">Sugar Free</span>
+          <span class="badge" style="color:#C42B1A;background:rgba(196,43,26,0.1);border-color:rgba(196,43,26,0.3);">Non Filtrato</span>
+          <span class="badge" style="color:#C42B1A;background:rgba(196,43,26,0.1);border-color:rgba(196,43,26,0.3);">Amaro Secco</span>
+          <span class="badge" style="color:#C42B1A;background:rgba(196,43,26,0.1);border-color:rgba(196,43,26,0.3);">Non in GDO</span>
+        </div>
+      </div>
+      <div class="price-block">
+        <div class="dual">
+          <div class="d-row">
+            <div class="d-tag">Senza astuccio — imponibile</div>
+            <div class="p-net">€ 25,00</div>
+            <div class="p-gross" style="color:#E07850;font-size:22px;">€ 30,50</div>
+          </div>
+          <div class="p-div"></div>
+          <div class="d-row">
+            <div class="d-tag">Con astuccio — imponibile</div>
+            <div class="p-net">€ 26,00</div>
+            <div class="p-gross" style="color:#E07850;font-size:22px;">€ 31,70</div>
+          </div>
+        </div>
+        <button class="calc-btn" style="color:#C42B1A;border-color:rgba(196,43,26,0.3);" data-product="Amaro QNK Cuncappa" data-cost="25.00" data-type="amaro" onclick="openCalc(this)">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+          Calcola margine
+        </button>
+        <a class="wa-btn" href="#" onclick="sendWA('Amaro QNK Cuncappa','1 bottiglia','amaro'); return false;">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.851L0 24l6.305-1.513A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.369l-.36-.213-3.722.893.933-3.617-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+          Richiedi campionatura
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="why-strip">
+    <div class="why-item">
+      <div class="why-kpi">Unicità</div>
+      <div class="why-title">Nessun competitor diretto</div>
+      <div class="why-text">Zero amari artigianali italiani con profilo sugar-free sul mercato. È un argomento di differenziazione concreto — il personale lo usa in una frase, il cliente lo ricorda e lo cerca.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-kpi">Double Revenue</div>
+      <div class="why-title">Un SKU, due servizi</div>
+      <div class="why-text">Digestivo dopo cena: alza lo scontrino. Base cocktail: il gusto è già strutturato — il bartender non deve correggere con altri prodotti. Meno sprechi, drink più puliti, margine reale.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-kpi">Riordino</div>
+      <div class="why-title">€ 25,00 netto · non replicabile</div>
+      <div class="why-text">Profilo non disponibile in GDO. Il cliente che lo trova in carta non cerca un'alternativa — il locale diventa il riferimento. Margine HoReCa standard applicabile senza pressione.</div>
+    </div>
+  </div>
+
+</div><!-- /panel-amaro -->
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PANEL: BIRRE
+════════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-birre" role="tabpanel">
+
+  <div class="sec-wrap">
+    <div class="sec-head">
+      <div class="sec-title">Freeddacala Craft Beer</div>
+      <div class="sec-tag">Non filtrate · Non pastorizzate · 33 cl · 6 referenze</div>
+    </div>
+    <div class="sec-rule"></div>
+    <div class="sec-pitch">
+      Non pastorizzate, non filtrate — l'unico claim che il cliente non trova al supermercato.
+      Sei referenze, un solo prezzo, composizione mista libera da 24 pezzi.
+    </div>
+  </div>
+
+  <!-- CONFIGURATORE CASSA MISTA -->
+  <div class="config-wrap" id="beerConfig">
+    <div class="config-header">
+      <div class="config-title">◆ &nbsp;Configuratore Cassa Mista</div>
+      <div class="config-progress-wrap">
+        <div class="config-progress-label">
+          <span>Composizione ordine</span>
+          <span id="progressCount">0 / 24 pz</span>
+        </div>
+        <div class="config-progress-track">
+          <div class="config-progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+    <div class="config-msg" id="configMsg">Seleziona le referenze — minimo 24 pezzi, composizione libera.</div>
+    <div class="config-grid">
+      <div class="config-item">
+        <div class="config-item-name">I Pazza</div>
+        <div class="config-item-sub">IPA 6.0%</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeCount('ipazza',-1)">−</button>
+          <div class="counter-val" id="count-ipazza">0</div>
+          <button class="counter-btn" onclick="changeCount('ipazza',1)">+</button>
+        </div>
+      </div>
+      <div class="config-item">
+        <div class="config-item-name">Rock IPA</div>
+        <div class="config-item-sub">Session 4.5%</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeCount('rockipa',-1)">−</button>
+          <div class="counter-val" id="count-rockipa">0</div>
+          <button class="counter-btn" onclick="changeCount('rockipa',1)">+</button>
+        </div>
+      </div>
+      <div class="config-item">
+        <div class="config-item-name">Pale Ale</div>
+        <div class="config-item-sub">Classic 5.8%</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeCount('paleale',-1)">−</button>
+          <div class="counter-val" id="count-paleale">0</div>
+          <button class="counter-btn" onclick="changeCount('paleale',1)">+</button>
+        </div>
+      </div>
+      <div class="config-item">
+        <div class="config-item-name">Scemay</div>
+        <div class="config-item-sub">Belgian Amber 7.0%</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeCount('scemay',-1)">−</button>
+          <div class="counter-val" id="count-scemay">0</div>
+          <button class="counter-btn" onclick="changeCount('scemay',1)">+</button>
+        </div>
+      </div>
+      <div class="config-item">
+        <div class="config-item-name">Imperial IPA</div>
+        <div class="config-item-sub">Double 7.5%</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeCount('imperial',-1)">−</button>
+          <div class="counter-val" id="count-imperial">0</div>
+          <button class="counter-btn" onclick="changeCount('imperial',1)">+</button>
+        </div>
+      </div>
+      <div class="config-item">
+        <div class="config-item-name">Tri Pel</div>
+        <div class="config-item-sub">Tripel 9.0%</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeCount('tripel',-1)">−</button>
+          <div class="counter-val" id="count-tripel">0</div>
+          <button class="counter-btn" onclick="changeCount('tripel',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="config-footer">
+      <div class="config-total">
+        <div class="config-total-label">Totale ordine (IVA inclusa)</div>
+        <div class="config-total-val" id="configTotal">€ 0,00</div>
+        <div class="config-total-sub" id="configSub">— seleziona almeno 24 pz</div>
+      </div>
+      <a class="config-order-btn" id="configOrderBtn" href="#" onclick="sendBeerOrder(); return false;">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.851L0 24l6.305-1.513A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.369l-.36-.213-3.722.893.933-3.617-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+        Invia ordine su WhatsApp
+      </a>
+    </div>
+  </div><!-- /config-wrap -->
+
+  <!-- LISTINO BIRRE -->
+  <div class="birra-grid">
+
+    <div class="birra-card bk-ipazza">
+      <div class="birra-card-inner">
+        <div>
+          <div class="c-name">I Pazza</div>
+          <div class="c-sub">West Coast IPA · Non filtrata · Non pastorizzata</div>
+          <div class="birra-abv">6.0% Vol.</div>
+          <div class="c-pitch">IPA classica: agrumi, tropicale, finale resinoso. Accessibile al palato non abituato al craft — la birra che fa ordinare la seconda.</div>
+          <div class="badge-row"><span class="badge">Ingresso gamma</span><span class="badge">West Coast</span></div>
+        </div>
+        <div class="price-block" style="min-width:130px;">
+          <div class="p-row">
+            <div class="p-label">Bottiglia IVA</div>
+            <div class="p-gross">€ 3,05</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="birra-card bk-rockipa">
+      <div class="birra-card-inner">
+        <div>
+          <div class="c-name">Rock IPA</div>
+          <div class="c-sub">Session IPA al Bergamotto · Scorze vere in bollitura</div>
+          <div class="birra-abv">4.5% Vol.</div>
+          <div class="c-pitch">Vere scorze di Bergamotto calabrese in bollitura — non aromi, non estratti. Adatta a tutto il servizio.</div>
+          <div class="badge-row"><span class="badge">Bergamotto DOP</span><span class="badge">Session</span></div>
+        </div>
+        <div class="price-block" style="min-width:130px;">
+          <div class="p-row">
+            <div class="p-label">Bottiglia IVA</div>
+            <div class="p-gross">€ 3,05</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="birra-card bk-paleale">
+      <div class="birra-card-inner">
+        <div>
+          <div class="c-name">Pale Ale</div>
+          <div class="c-sub">Classic · Non filtrata</div>
+          <div class="birra-abv">5.8% Vol.</div>
+          <div class="c-pitch">Miele e cereali, corpo equilibrato, chiusura amara pulita. La più versatile per il food pairing — non domina nessun piatto.</div>
+          <div class="badge-row"><span class="badge">Food Pairing</span><span class="badge">Gateway</span></div>
+        </div>
+        <div class="price-block" style="min-width:130px;">
+          <div class="p-row">
+            <div class="p-label">Bottiglia IVA</div>
+            <div class="p-gross">€ 3,05</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="birra-card bk-scemay">
+      <div class="birra-card-inner">
+        <div>
+          <div class="c-name">Scemay</div>
+          <div class="c-sub">Belgian Amber · Malti tostati</div>
+          <div class="birra-abv">7.0% Vol.</div>
+          <div class="c-pitch">Caramello, tostatura, schiuma beige persistente. Alza il ticket medio ogni volta che è in carta. Ottima con formaggi stagionati.</div>
+          <div class="badge-row"><span class="badge">Premium</span><span class="badge">Belgian Style</span></div>
+        </div>
+        <div class="price-block" style="min-width:130px;">
+          <div class="p-row">
+            <div class="p-label">Bottiglia IVA</div>
+            <div class="p-gross">€ 3,05</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="birra-card bk-imperial">
+      <div class="birra-card-inner">
+        <div>
+          <div class="c-name">Imperial IPA</div>
+          <div class="c-sub">Double IPA · Luppolatura massiccia</div>
+          <div class="birra-abv">7.5% Vol.</div>
+          <div class="c-pitch">Luppolatura densa, amaro lungo, nessuna concessione. Per il cliente esperto — si vende da sola senza spiegazioni.</div>
+          <div class="badge-row"><span class="badge">Expert Pick</span><span class="badge">Double IPA</span></div>
+        </div>
+        <div class="price-block" style="min-width:130px;">
+          <div class="p-row">
+            <div class="p-label">Bottiglia IVA</div>
+            <div class="p-gross">€ 3,05</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="birra-card bk-tripel">
+      <div class="birra-card-inner">
+        <div>
+          <div class="c-name">Tri Pel</div>
+          <div class="c-sub">Tripel · Top di gamma</div>
+          <div class="birra-abv">9.0% Vol.</div>
+          <div class="c-pitch">9% con una bevuta fluida e pericolosamente facile. Speziata, fruttata, complessa. <strong>Giustifica il prezzo al bicchiere più alto in carta.</strong></div>
+          <div class="badge-row"><span class="badge">Top Shelf</span><span class="badge">Tripel</span></div>
+        </div>
+        <div class="price-block" style="min-width:130px;">
+          <div class="p-row">
+            <div class="p-label">Bottiglia IVA</div>
+            <div class="p-gross">€ 3,05</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /birra-grid -->
+
+  <div class="box-banner" style="margin-top:0;border-top:none;">
+    <div>
+      <div class="box-lbl">Riepilogo — Cassa 24 pz</div>
+      <div class="box-note">Composizione mista libera tra le 6 referenze. Nessun obbligo per referenza singola.</div>
+    </div>
+    <div class="box-price">
+      <div class="box-lbl">Ivata</div>
+      <div class="box-big">€ 73,20</div>
+      <div class="box-small">imponibile € 60,00 &nbsp;·&nbsp; € 3,05 / bottiglia</div>
+    </div>
+  </div>
+
+  <div class="why-strip">
+    <div class="why-item">
+      <div class="why-kpi">Ingresso senza rischio</div>
+      <div class="why-title">Cassa mista: si testa, poi si scala</div>
+      <div class="why-text">24 bottiglie minimo, composizione libera. Si entra con le referenze più adatte senza bloccare magazzino. Quando la rotazione è chiara, l'ordine successivo si ottimizza da solo.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-kpi">Prezzo fisso, margine lineare</div>
+      <div class="why-title">€ 3,05 IVA su tutta la gamma</div>
+      <div class="why-text">Un solo prezzo per sei referenze: gestione semplificata, nessuna negoziazione. Il prezzo al bicchiere craft standard (€5–7) garantisce margine costante su tutta la carta.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-kpi">Separazione dalla GDO</div>
+      <div class="why-title">Non filtrate · Argomento immediato</div>
+      <div class="why-text">Non pastorizzate, non filtrate: l'unico claim che il cliente non trova al supermercato. Chi beve craft lo riconosce al primo sorso e torna.</div>
+    </div>
+  </div>
+
+</div><!-- /panel-birre -->
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     BRAND STORY — sempre visibile
+════════════════════════════════════════════════════════════════════════ -->
+<div class="brand-story">
+  <div class="brand-story-eyebrow">Chi siamo</div>
+  <div class="story-grid">
+    <div class="story-main">
+      <div class="story-title">Nasce dalla passione<br>di un ragazzo <em>del Sud</em></div>
+      <div class="story-body">
+        <p>
+          Non un importatore, non un distributore — un <strong>produttore</strong>.
+          La scelta di restare nel territorio e costruirci qualcosa di concreto, 
+          in un momento in cui tutti guardavano altrove.
+        </p>
+        <p>
+          Ogni bottiglia è il risultato di una <strong>collaborazione diretta con produttori locali</strong>
+          del Sud Italia: materie prime di prima qualità, filiera corta, identità verificabile sul campo.
+          Nessun intermediario tra la terra e il bancone.
+        </p>
+        <p>
+          Il Bergamotto calabrese di Rock IPA entra in bollitura come scorza vera, 
+          non come aroma. Le botaniche del Trupija Gin crescono selvatiche nel Salento.
+          L'Amaro QNK Cuncappa è formulato senza compromessi — sugar-free per 
+          <strong>scelta tecnica, non per trend</strong>.
+        </p>
+        <p>
+          Tre brand, un'unica visione: portare nel canale HoReCa un'offerta artigianale
+          che si difende da sola — in carta, sul bancone, nel riordino. 
+          Prodotti che il personale vende senza sforzo perché hanno una storia vera da raccontare.
+        </p>
+      </div>
+      <div class="story-claims">
+        <span class="story-claim">Produzione Propria</span>
+        <span class="story-claim">Filiera Corta</span>
+        <span class="story-claim">Non Disponibile in GDO</span>
+        <span class="story-claim">Sud Italia 100%</span>
+        <span class="story-claim">Zero Compromise</span>
+      </div>
+    </div>
+    <div class="story-side">
+      <div class="story-facts">
+        <div class="fact-item">
+          <div class="fact-val">3</div>
+          <div class="fact-lbl">Brand propri</div>
+          <div class="fact-desc">Trupija Gin · QNK Cuncappa · Freeddacala Beer</div>
+        </div>
+        <div class="fact-item">
+          <div class="fact-val">9</div>
+          <div class="fact-lbl">Referenze attive</div>
+          <div class="fact-desc">Gamma completa per ogni momento del servizio</div>
+        </div>
+        <div class="fact-item">
+          <div class="fact-val">100%</div>
+          <div class="fact-lbl">Sud Italia</div>
+          <div class="fact-desc">Materie prime, produzione, identità — tutto verificabile</div>
+        </div>
+      </div>
+      <div class="story-cta">
+        <div class="story-cta-label">Inizia la conversazione</div>
+        <a class="story-wa-btn" href="https://wa.me/393516513239?text=Buongiorno%2C+vorrei+ricevere+informazioni+sui+vostri+prodotti+Premium+Craft+per+il+mio+locale." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.851L0 24l6.305-1.513A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.369l-.36-.213-3.722.893.933-3.617-.234-.372A9.818 9.818 0 1112 21.818z"/></svg>
+          Contattaci su WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <span>Listino riservato · HoReCa · Confidenziale</span>
+  <span>Prezzi imponibili salvo indicazione · IVA 22%</span>
+  <span>Birre: minimo 24 pz · cassa mista disponibile</span>
+  <a href="https://wa.me/393516513239">WhatsApp +39 351 651 3239</a>
+</footer>
+
+</div><!-- /page -->
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     MARGIN CALCULATOR MODAL
+════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="calcModal" onclick="closeCalcOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCalc()" aria-label="Chiudi">✕</button>
+    <div class="modal-eyebrow">Deal Maker — Calcolo Profitto</div>
+    <div class="modal-title" id="calcModalTitle">Prodotto</div>
+
+    <div class="calc-input-wrap">
+      <label class="calc-label" id="calcPriceLabel">Prezzo di vendita al bicchiere / cocktail (€)</label>
+      <div class="calc-input-row">
+        <div class="calc-currency">€</div>
+        <input class="calc-input" id="calcPriceInput" type="number" min="1" max="100" step="0.5" value="10" oninput="updateCalc()">
+      </div>
+    </div>
+
+    <div class="calc-results">
+      <div class="calc-row">
+        <span class="calc-row-label">Costo bottiglia (imponibile)</span>
+        <span class="calc-row-val" id="calcCost">€ —</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-row-label">Servizi stimati per bottiglia</span>
+        <span class="calc-row-val" id="calcPours">—</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-row-label">Ricavo lordo stimato</span>
+        <span class="calc-row-val" id="calcRevenue">€ —</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-row-label">Margine lordo</span>
+        <span class="calc-row-val highlight" id="calcMargin">€ —</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-row-label">Food Cost %</span>
+        <span class="calc-row-val" id="calcFoodCost">—</span>
+      </div>
+    </div>
+    <div class="calc-note" id="calcNote"></div>
+  </div>
+</div>
+
+<script>
+/* ══ TAB SWITCHER ══════════════════════════════════════════════════════ */
+const tabs   = document.querySelectorAll('.tab-btn');
+const panels = document.querySelectorAll('.tab-panel');
+tabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    tabs.forEach(t  => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    panels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    document.getElementById('panel-' + target).classList.add('active');
+    document.body.className = btn.dataset.theme || '';
+  });
+});
+
+/* ══ MARGIN CALCULATOR ══════════════════════════════════════════════════ */
+let calcData = {};
+
+function openCalc(btn) {
+  const product = btn.dataset.product;
+  const cost    = parseFloat(btn.dataset.cost);
+  const type    = btn.dataset.type;
+  calcData = { product, cost, type };
+
+  document.getElementById('calcModalTitle').textContent = product;
+
+  // Set defaults & label by product type
+  const priceInput = document.getElementById('calcPriceInput');
+  const lbl        = document.getElementById('calcPriceLabel');
+  if (type === 'birra') {
+    priceInput.value = 5;
+    lbl.textContent  = 'Prezzo di vendita a bottiglia (€)';
+  } else if (type === 'amaro') {
+    priceInput.value = 10;
+    lbl.textContent  = 'Prezzo di vendita al calice (€)';
+  } else {
+    priceInput.value = 10;
+    lbl.textContent  = 'Prezzo di vendita cocktail / calice (€)';
+  }
+
+  updateCalc();
+  document.getElementById('calcModal').classList.add('open');
+}
+
+function closeCalc() {
+  document.getElementById('calcModal').classList.remove('open');
+}
+function closeCalcOutside(e) {
+  if (e.target === document.getElementById('calcModal')) closeCalc();
+}
+
+function updateCalc() {
+  if (!calcData.cost) return;
+  const price   = parseFloat(document.getElementById('calcPriceInput').value) || 0;
+  const cost    = calcData.cost;
+  const type    = calcData.type;
+
+  // Pours per bottle by category
+  const pours = (type === 'amaro') ? 14 : (type === 'birra') ? 1 : 14;
+  const revenue = price * pours;
+  const margin  = revenue - cost;
+  const fc      = cost / revenue * 100;
+
+  document.getElementById('calcCost').textContent    = '€ ' + cost.toFixed(2);
+  document.getElementById('calcPours').textContent   = pours + (type === 'birra' ? ' bottiglia' : ' servizi (70cl)');
+  document.getElementById('calcRevenue').textContent = '€ ' + revenue.toFixed(2);
+  document.getElementById('calcMargin').textContent  = '€ ' + margin.toFixed(2);
+
+  const fcEl = document.getElementById('calcFoodCost');
+  fcEl.textContent = fc.toFixed(1) + '%';
+  fcEl.className = 'calc-row-val ' + (fc < 20 ? 'good' : fc < 30 ? 'warn' : '');
+
+  const noteEl = document.getElementById('calcNote');
+  if (fc < 20) {
+    noteEl.textContent = `Ottimo posizionamento — food cost al ${fc.toFixed(1)}%, margine di €${margin.toFixed(2)} per bottiglia. Il prodotto si giustifica da solo sul vostro scontrino.`;
+  } else if (fc < 30) {
+    noteEl.textContent = `Food cost accettabile. Alzando il prezzo di €1–2 si ottiene un margine significativamente migliore mantenendo il posizionamento premium.`;
+  } else {
+    noteEl.textContent = `Considera di alzare il prezzo al servizio — il profilo del prodotto supporta un posizionamento più alto. Il cliente paga per l'esclusività.`;
+  }
+}
+
+/* ══ BEER CONFIGURATOR ══════════════════════════════════════════════════ */
+const beerCounts = { ipazza:0, rockipa:0, paleale:0, scemay:0, imperial:0, tripel:0 };
+const UNIT_IVA   = 3.05;
+const MIN_QTY    = 24;
+const beerNames  = {
+  ipazza:'I Pazza (IPA 6%)', rockipa:'Rock IPA (Bergamotto 4.5%)',
+  paleale:'Pale Ale (5.8%)', scemay:'Scemay (Amber 7%)',
+  imperial:'Imperial IPA (7.5%)', tripel:'Tri Pel (Tripel 9%)'
+};
+
+function changeCount(key, delta) {
+  beerCounts[key] = Math.max(0, beerCounts[key] + delta);
+  document.getElementById('count-' + key).textContent = beerCounts[key];
+  updateConfig();
+}
+
+function totalQty() {
+  return Object.values(beerCounts).reduce((a,b) => a+b, 0);
+}
+
+function updateConfig() {
+  const qty  = totalQty();
+  const pct  = Math.min(qty / MIN_QTY * 100, 100);
+  const total = qty * UNIT_IVA;
+
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = qty + ' / ' + MIN_QTY + ' pz';
+  document.getElementById('configTotal').textContent   = '€ ' + total.toFixed(2).replace('.',',');
+
+  const msgEl = document.getElementById('configMsg');
+  const btnEl = document.getElementById('configOrderBtn');
+
+  if (qty === 0) {
+    msgEl.textContent = 'Seleziona le referenze — minimo 24 pezzi, composizione libera.';
+    msgEl.className   = 'config-msg';
+    document.getElementById('configSub').textContent = '— seleziona almeno 24 pz';
+    btnEl.classList.remove('active');
+  } else if (qty < MIN_QTY) {
+    const rem = MIN_QTY - qty;
+    msgEl.textContent = `Stai testando la rotazione senza bloccare magazzino — ancora ${rem} pz per completare la cassa.`;
+    msgEl.className   = 'config-msg';
+    document.getElementById('configSub').textContent = `— ${MIN_QTY - qty} pz mancanti al minimo`;
+    btnEl.classList.remove('active');
+  } else {
+    const casse = Math.floor(qty / MIN_QTY);
+    msgEl.textContent = `✓ Cassa pronta. ${qty} pz selezionati — composizione ottimizzata per la tua rotazione.`;
+    msgEl.className   = 'config-msg ready';
+    document.getElementById('configSub').textContent = `${qty} bottiglie · imponibile € ${(qty * 2.5).toFixed(2).replace('.',',')}`;
+    btnEl.classList.add('active');
+  }
+}
+
+function sendBeerOrder() {
+  const qty = totalQty();
+  if (qty < MIN_QTY) return;
+  const lines = Object.entries(beerCounts)
+    .filter(([,v]) => v > 0)
+    .map(([k,v]) => `- ${beerNames[k]}: ${v} pz`)
+    .join('%0A');
+  const total = (qty * UNIT_IVA).toFixed(2);
+  const msg = `Buongiorno, vorrei ordinare la seguente cassa mista Freeddacala Craft Beer:%0A%0A${lines}%0A%0ATotale: ${qty} pz — € ${total} (IVA incl.)%0A%0AVorrei inserire queste birre nella mia carta.`;
+  window.open('https://wa.me/393516513239?text=' + msg, '_blank');
+}
+
+/* ══ WA SINGLE PRODUCT ══════════════════════════════════════════════════ */
+function sendWA(product, qty, type) {
+  const msgs = {
+    gin:   `Buongiorno, vorrei richiedere una campionatura di *${product}* (${qty}) per il mio locale. Vorrei valutare l'inserimento nella mia carta cocktail.`,
+    amaro: `Buongiorno, sono interessato a *${product}* (${qty}) per il mio locale. Vorrei ricevere informazioni su prezzi e modalità di ordine.`,
+    birra: `Buongiorno, vorrei inserire *${product}* nella mia carta birre. Potete inviarmi informazioni sui quantitativi minimi?`
+  };
+  const text = encodeURIComponent(msgs[type] || msgs.gin);
+  window.open('https://wa.me/393516513239?text=' + text, '_blank');
+}
+
+/* ══ KEYBOARD: ESC to close modal ══════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeCalc();
+});
+</script>
+</body>
+</html>
