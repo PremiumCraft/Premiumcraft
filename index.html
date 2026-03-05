@@ -675,7 +675,8 @@ body::after {
 .prev-overlay {
   position:fixed; inset:0; z-index:1100;
   background:rgba(4,3,2,0.92); backdrop-filter:blur(10px);
-  display:flex; align-items:center; justify-content:center; padding:20px;
+  display:flex; align-items:flex-start; justify-content:center;
+  padding:20px; overflow-y:auto;
   opacity:0; pointer-events:none;
   transition:opacity 0.3s ease;
 }
@@ -686,7 +687,7 @@ body::after {
   padding:36px 36px 28px; box-shadow:0 40px 80px rgba(0,0,0,0.7);
   transform:translateY(16px) scale(0.98);
   transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  overflow-x:hidden;
+  overflow-x:hidden; margin:auto;
 }
 @media (max-width:600px) {
   .prev-modal { padding:24px 16px 20px; }
