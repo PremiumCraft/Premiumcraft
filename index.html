@@ -658,6 +658,211 @@ body::after {
 .serving-amaro .serving-card::before { background:#C42B1A; }
 .serving-amaro .sv-occasion { color:#C42B1A; }
 
+/* ── PDF PREVENTIVO ──────────────────────────────────────────────────── */
+.pdf-btn {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:9px 16px;
+  background:rgba(200,160,53,0.08); border:1px solid rgba(200,160,53,0.35);
+  font-family:'Montserrat',sans-serif; font-size:8px; font-weight:700;
+  letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--gold); cursor:pointer;
+  transition:all var(--trans); margin-top:10px;
+}
+.pdf-btn:hover { background:rgba(200,160,53,0.16); border-color:var(--gold); }
+.pdf-btn svg { width:12px; height:12px; fill:currentColor; flex-shrink:0; }
+
+/* Modal preventivo */
+.prev-overlay {
+  position:fixed; inset:0; z-index:1100;
+  background:rgba(4,3,2,0.92); backdrop-filter:blur(10px);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.3s ease;
+}
+.prev-overlay.open { opacity:1; pointer-events:all; }
+.prev-modal {
+  background:var(--surface); border:1px solid var(--border);
+  max-width:560px; width:100%; position:relative;
+  padding:36px 36px 28px; box-shadow:0 40px 80px rgba(0,0,0,0.7);
+  transform:translateY(16px) scale(0.98);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  overflow-x:hidden;
+}
+@media (max-width:600px) {
+  .prev-modal { padding:24px 16px 20px; }
+  .prev-fields { grid-template-columns:1fr !important; }
+  .prev-prod-item { gap:8px; }
+  .pv-counter-val { width:24px; }
+  .pv-counter-btn { width:22px; height:22px; }
+  .pv-unit-note { min-width:54px; font-size:7px; }
+  .prev-prod-name { font-size:12px; }
+  .pv-beer-note { font-size:8px; }
+}
+.prev-overlay.open .prev-modal { transform:translateY(0) scale(1); }
+.prev-modal::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(180deg,var(--gold) 0%,rgba(200,160,53,0.2) 100%);
+}
+.prev-close {
+  position:absolute; top:16px; right:18px;
+  background:none; border:none; color:var(--muted); cursor:pointer;
+  font-size:18px; line-height:1; padding:4px; transition:color var(--trans);
+}
+.prev-close:hover { color:var(--text); }
+
+.prev-eyebrow {
+  font-size:8px; font-weight:700; letter-spacing:0.38em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:6px;
+}
+.prev-title {
+  font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:600;
+  color:var(--text); margin-bottom:6px; letter-spacing:0.03em;
+}
+.prev-desc {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:13px; color:var(--muted); margin-bottom:24px; line-height:1.55;
+}
+
+.prev-section-label {
+  font-size:8px; font-weight:700; letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:10px; margin-top:20px;
+  display:flex; align-items:center; gap:8px;
+}
+.prev-section-label::after {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(90deg,var(--border),transparent);
+}
+.prev-section-label:first-of-type { margin-top:0; }
+
+.prev-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.prev-fields.full { grid-template-columns:1fr; }
+.prev-field { display:flex; flex-direction:column; gap:5px; }
+.prev-label {
+  font-size:8.5px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--muted);
+}
+.prev-input, .prev-select, .prev-textarea {
+  background:#0A0806; border:1px solid var(--border);
+  color:var(--text); padding:9px 12px;
+  font-family:'Montserrat',sans-serif; font-size:12px;
+  outline:none; transition:border-color var(--trans);
+  appearance:none; -webkit-appearance:none;
+}
+.prev-input:focus, .prev-select:focus, .prev-textarea:focus {
+  border-color:var(--acc);
+}
+.prev-textarea { resize:vertical; min-height:60px; }
+.prev-select { cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237A7265'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:28px; }
+
+/* Prodotti selezionabili con quantità */
+.prev-products {
+  display:flex; flex-direction:column; gap:0;
+  border:1px solid var(--border); margin-top:2px;
+}
+.prev-prod-item {
+  display:grid; grid-template-columns:auto 1fr auto;
+  align-items:center; gap:12px;
+  padding:11px 14px; border-bottom:1px solid var(--border);
+  transition:background var(--trans);
+  user-select:none;
+}
+.prev-prod-item:last-child { border-bottom:none; }
+.prev-prod-item.selected { background:rgba(200,160,53,0.05); }
+.prev-prod-check {
+  width:14px; height:14px; border:1px solid var(--border); flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; color:var(--acc); transition:all var(--trans); cursor:pointer;
+}
+.prev-prod-item.selected .prev-prod-check {
+  background:var(--acc); color:var(--ink); border-color:var(--acc);
+}
+.prev-prod-name {
+  font-family:'Cormorant Garamond',serif; font-size:14px; font-weight:600;
+  color:var(--text); line-height:1.2; cursor:pointer;
+}
+.prev-prod-sub {
+  font-size:8px; color:var(--muted); letter-spacing:0.1em; margin-top:2px;
+}
+.prev-prod-badge {
+  display:inline-block; margin-left:6px;
+  padding:2px 7px; font-size:7px; font-weight:700; letter-spacing:0.16em;
+  text-transform:uppercase; color:#4DCB78;
+  background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.25);
+  vertical-align:middle; position:relative; top:-1px;
+}
+.prev-prod-badge.warn { color:#E0A040; background:rgba(224,160,64,0.1); border-color:rgba(224,160,64,0.25); }
+
+/* Contatore quantità spirits */
+.pv-counter {
+  display:flex; align-items:center; gap:0;
+  border:1px solid var(--border); opacity:0.3; pointer-events:none;
+  transition:opacity var(--trans);
+}
+.prev-prod-item.selected .pv-counter { opacity:1; pointer-events:all; }
+.pv-counter-btn {
+  width:26px; height:26px; display:flex; align-items:center; justify-content:center;
+  background:none; border:none; cursor:pointer; color:var(--muted); font-size:15px;
+  transition:all var(--trans);
+}
+.pv-counter-btn:hover { color:var(--text); background:var(--hover); }
+.pv-counter-val {
+  width:30px; text-align:center;
+  font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:600;
+  color:var(--text); border-left:1px solid var(--border); border-right:1px solid var(--border);
+  line-height:26px;
+}
+.pv-unit-note {
+  font-size:7.5px; color:var(--muted); margin-top:3px; text-align:right;
+  min-width:70px; line-height:1.4;
+}
+
+/* Birre sub-grid */
+.pv-beer-expand {
+  display:none; background:rgba(8,7,5,0.5);
+  border-top:1px solid var(--border);
+  padding:10px 12px 12px 12px;
+}
+.prev-prod-item.selected + .pv-beer-expand,
+.pv-beer-expand.open { display:block; }
+.pv-beer-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+  border:1px solid var(--border);
+}
+.pv-beer-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 10px; border-right:1px solid var(--border); border-bottom:1px solid var(--border);
+}
+.pv-beer-row:nth-child(2n) { border-right:none; }
+.pv-beer-row:nth-last-child(-n+2) { border-bottom:none; }
+.pv-beer-name { font-size:11px; color:var(--text); font-family:'Cormorant Garamond',serif; font-weight:600; }
+.pv-beer-sub  { font-size:7.5px; color:var(--muted); }
+.pv-beer-note {
+  font-size:8px; color:var(--muted); margin-top:6px; font-style:italic;
+  font-family:'Cormorant Garamond',serif;
+}
+
+.prev-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:24px; padding-top:18px; border-top:1px solid var(--border);
+  gap:12px; flex-wrap:wrap;
+}
+.prev-note-small {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:12px; color:var(--muted); flex:1;
+}
+.prev-generate-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 22px;
+  background:var(--gold); color:var(--ink);
+  font-family:'Montserrat',sans-serif; font-size:9px; font-weight:700;
+  letter-spacing:0.22em; text-transform:uppercase;
+  border:none; cursor:pointer;
+  transition:background var(--trans);
+}
+.prev-generate-btn:hover { background:var(--gold-hi); }
+.prev-generate-btn svg { width:13px; height:13px; fill:currentColor; }
+.prev-generate-btn:disabled { opacity:0.4; cursor:not-allowed; }
+
 /* ── THEME COLORS ────────────────────────────────────────────────────── */
 body.theme-gin {
   --ink:#080C12; --surface:#0B0F18; --border:#1A2236; --muted:#7280A0;
@@ -747,6 +952,13 @@ body.theme-birre {
   .config-item:nth-child(3n) { border-right:1px solid var(--border); }
   .config-item:nth-child(2n):last-child { border-right:none; }
   .modal { padding:24px; }
+  .prev-modal { padding:24px 16px 20px; }
+  .prev-fields { grid-template-columns:1fr; }
+  .prev-prod-item { grid-template-columns:auto 1fr; gap:10px; }
+  .prev-prod-item > div:last-child { grid-column:2; justify-self:start; }
+  .pv-unit-note { text-align:left; }
+  .prev-footer { flex-direction:column; align-items:stretch; }
+  .prev-generate-btn { justify-content:center; }
 }
 
 /* ── PRINT ───────────────────────────────────────────────────────────── */
@@ -763,6 +975,7 @@ body.theme-birre {
   .footer { opacity:1 !important; }
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body class="theme-gin">
@@ -785,6 +998,10 @@ body.theme-birre {
       +39 351 651 3239
     </a>
     <span class="contact-badge">Risposta garantita in giornata</span>
+    <button class="pdf-btn" onclick="openPrev()">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15h8v1H8v-1zm0-3h8v1H8v-1zm0-3h5v1H8V9z"/></svg>
+      Genera Preventivo PDF
+    </button>
   </div>
 </header>
 <div class="hr-rule"></div>
@@ -1503,6 +1720,189 @@ body.theme-birre {
 </div><!-- /page -->
 
 <!-- ══════════════════════════════════════════════════════════════════════
+     PREVENTIVO PDF MODAL
+════════════════════════════════════════════════════════════════════════ -->
+<div class="prev-overlay" id="prevModal" onclick="closePrevOutside(event)">
+  <div class="prev-modal">
+    <button class="prev-close" onclick="closePrev()">✕</button>
+    <div class="prev-eyebrow">Documenti Commerciali</div>
+    <div class="prev-title">Genera Preventivo PDF</div>
+    <div class="prev-desc">Il PDF include listino prezzi, condizioni e contatti — pronto da inoltrare al titolare o all'ufficio acquisti.</div>
+
+    <div class="prev-section-label">Il tuo locale</div>
+    <div class="prev-fields">
+      <div class="prev-field">
+        <label class="prev-label">Nome locale *</label>
+        <input class="prev-input" id="pv-locale" type="text" placeholder="Bar Centrale, Ristorante Da Mario…">
+      </div>
+      <div class="prev-field">
+        <label class="prev-label">Città</label>
+        <input class="prev-input" id="pv-citta" type="text" placeholder="Lecce, Milano…">
+      </div>
+      <div class="prev-field">
+        <label class="prev-label">Referente</label>
+        <input class="prev-input" id="pv-referente" type="text" placeholder="Mario Rossi">
+      </div>
+      <div class="prev-field">
+        <label class="prev-label">Tipologia</label>
+        <select class="prev-select" id="pv-tipo">
+          <option value="">— seleziona —</option>
+          <option>Bar / Cocktail Bar</option>
+          <option>Ristorante</option>
+          <option>Hotel / Resort</option>
+          <option>Enoteca</option>
+          <option>Beach Club</option>
+          <option>Altro</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="prev-section-label">Prodotti &amp; Quantità</div>
+    <div class="prev-products" id="pv-products">
+
+      <!-- GIN MEDITERRANEO -->
+      <div class="prev-prod-item selected" id="ppi-gin-med">
+        <div class="prev-prod-check" onclick="toggleProd('gin-med')">✓</div>
+        <div onclick="toggleProd('gin-med')" style="cursor:pointer">
+          <div class="prev-prod-name">Trupija Mediterraneo</div>
+          <div class="prev-prod-sub">Dry Gin · 41% Vol. · € 27,50 netto · € 33,55 IVA</div>
+        </div>
+        <div>
+          <div class="pv-counter">
+            <button class="pv-counter-btn" onclick="pvChange('gin-med',-1)">−</button>
+            <div class="pv-counter-val" id="pvc-gin-med">1</div>
+            <button class="pv-counter-btn" onclick="pvChange('gin-med',1)">+</button>
+          </div>
+          <div class="pv-unit-note" id="pvn-gin-med">€ 33,55 IVA</div>
+        </div>
+      </div>
+
+      <!-- GIN TROPICALE -->
+      <div class="prev-prod-item selected" id="ppi-gin-trop">
+        <div class="prev-prod-check" onclick="toggleProd('gin-trop')">✓</div>
+        <div onclick="toggleProd('gin-trop')" style="cursor:pointer">
+          <div class="prev-prod-name">Trupija Tropicale</div>
+          <div class="prev-prod-sub">Gin · 41% Vol. · € 27,50 netto · € 33,55 IVA</div>
+        </div>
+        <div>
+          <div class="pv-counter">
+            <button class="pv-counter-btn" onclick="pvChange('gin-trop',-1)">−</button>
+            <div class="pv-counter-val" id="pvc-gin-trop">1</div>
+            <button class="pv-counter-btn" onclick="pvChange('gin-trop',1)">+</button>
+          </div>
+          <div class="pv-unit-note" id="pvn-gin-trop">€ 33,55 IVA</div>
+        </div>
+      </div>
+
+      <!-- QNK -->
+      <div class="prev-prod-item selected" id="ppi-qnk">
+        <div class="prev-prod-check" onclick="toggleProd('qnk')">✓</div>
+        <div onclick="toggleProd('qnk')" style="cursor:pointer">
+          <div class="prev-prod-name">QNK Cuncappa</div>
+          <div class="prev-prod-sub">Amaro · 30% Vol. · € 25,00 netto · € 30,50 IVA</div>
+        </div>
+        <div>
+          <div class="pv-counter">
+            <button class="pv-counter-btn" onclick="pvChange('qnk',-1)">−</button>
+            <div class="pv-counter-val" id="pvc-qnk">1</div>
+            <button class="pv-counter-btn" onclick="pvChange('qnk',1)">+</button>
+          </div>
+          <div class="pv-unit-note" id="pvn-qnk">€ 30,50 IVA</div>
+        </div>
+      </div>
+
+      <!-- BIRRE (toggle espande sub-grid) -->
+      <div class="prev-prod-item" id="ppi-birre">
+        <div class="prev-prod-check" onclick="toggleProd('birre')"></div>
+        <div onclick="toggleProd('birre')" style="cursor:pointer">
+          <div class="prev-prod-name">Freeddacala Craft Beer <span class="prev-prod-badge">×6 per referenza</span></div>
+          <div class="prev-prod-sub">6 referenze · 33 cl · Non filtrate · Non pastorizzate · € 3,05/pz IVA</div>
+        </div>
+        <div>
+          <div class="pv-counter" id="pvc-birre-wrap" style="display:none"></div>
+          <div class="pv-unit-note" id="pvn-birre" style="min-width:70px;"></div>
+        </div>
+      </div>
+      <div class="pv-beer-expand" id="pv-beer-expand">
+        <div class="pv-beer-grid">
+          <div class="pv-beer-row">
+            <div><div class="pv-beer-name">I Pazza</div><div class="pv-beer-sub">IPA 6.0%</div></div>
+            <div class="pv-counter" style="opacity:1;pointer-events:all;">
+              <button class="pv-counter-btn" onclick="pvBeer('ipazza',-1)">−</button>
+              <div class="pv-counter-val" id="pvb-ipazza">0</div>
+              <button class="pv-counter-btn" onclick="pvBeer('ipazza',1)">+</button>
+            </div>
+          </div>
+          <div class="pv-beer-row">
+            <div><div class="pv-beer-name">Rock IPA</div><div class="pv-beer-sub">Bergamotto 4.5%</div></div>
+            <div class="pv-counter" style="opacity:1;pointer-events:all;">
+              <button class="pv-counter-btn" onclick="pvBeer('rockipa',-1)">−</button>
+              <div class="pv-counter-val" id="pvb-rockipa">0</div>
+              <button class="pv-counter-btn" onclick="pvBeer('rockipa',1)">+</button>
+            </div>
+          </div>
+          <div class="pv-beer-row">
+            <div><div class="pv-beer-name">Pale Ale</div><div class="pv-beer-sub">Classic 5.8%</div></div>
+            <div class="pv-counter" style="opacity:1;pointer-events:all;">
+              <button class="pv-counter-btn" onclick="pvBeer('paleale',-1)">−</button>
+              <div class="pv-counter-val" id="pvb-paleale">0</div>
+              <button class="pv-counter-btn" onclick="pvBeer('paleale',1)">+</button>
+            </div>
+          </div>
+          <div class="pv-beer-row">
+            <div><div class="pv-beer-name">Scemay</div><div class="pv-beer-sub">Amber 7.0%</div></div>
+            <div class="pv-counter" style="opacity:1;pointer-events:all;">
+              <button class="pv-counter-btn" onclick="pvBeer('scemay',-1)">−</button>
+              <div class="pv-counter-val" id="pvb-scemay">0</div>
+              <button class="pv-counter-btn" onclick="pvBeer('scemay',1)">+</button>
+            </div>
+          </div>
+          <div class="pv-beer-row">
+            <div><div class="pv-beer-name">Imperial IPA</div><div class="pv-beer-sub">Double 7.5%</div></div>
+            <div class="pv-counter" style="opacity:1;pointer-events:all;">
+              <button class="pv-counter-btn" onclick="pvBeer('imperial',-1)">−</button>
+              <div class="pv-counter-val" id="pvb-imperial">0</div>
+              <button class="pv-counter-btn" onclick="pvBeer('imperial',1)">+</button>
+            </div>
+          </div>
+          <div class="pv-beer-row">
+            <div><div class="pv-beer-name">Tri Pel</div><div class="pv-beer-sub">Tripel 9.0%</div></div>
+            <div class="pv-counter" style="opacity:1;pointer-events:all;">
+              <button class="pv-counter-btn" onclick="pvBeer('tripel',-1)">−</button>
+              <div class="pv-counter-val" id="pvb-tripel">0</div>
+              <button class="pv-counter-btn" onclick="pvBeer('tripel',1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="pv-beer-note" id="pv-beer-note">Ogni referenza va a multipli di 6. Seleziona almeno una cassa.</div>
+      </div>
+
+    </div>
+
+    <!-- Totale riepilogo -->
+    <div id="pv-totale-wrap" style="display:flex;justify-content:flex-end;padding:8px 0 0;gap:16px;align-items:baseline;">
+      <div style="font-size:8px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);">Totale ordine (IVA incl.)</div>
+      <div id="pv-totale" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);">€ 0,00</div>
+    </div>
+
+    <div class="prev-section-label" style="margin-top:18px;">Note aggiuntive</div>
+    <div class="prev-fields full">
+      <div class="prev-field">
+        <textarea class="prev-textarea" id="pv-note" placeholder="Eventuali richieste, quantitativi, condizioni particolari…"></textarea>
+      </div>
+    </div>
+
+    <div class="prev-footer">
+      <div class="prev-note-small">Il PDF verrà generato nel browser — nessun dato inviato prima del tuo invio.</div>
+      <button class="prev-generate-btn" id="pv-genbtn" onclick="generatePDF()">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+        Scarica PDF
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
      MARGIN CALCULATOR MODAL
 ════════════════════════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="calcModal" onclick="closeCalcOutside(event)">
@@ -1705,8 +2105,336 @@ function sendWA(product, qty, type) {
 
 /* ══ KEYBOARD: ESC to close modal ══════════════════════════════════════ */
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeCalc();
+  if (e.key === 'Escape') { closeCalc(); closePrev(); }
 });
+
+/* ══ PREVENTIVO PDF ══════════════════════════════════════════════════════ */
+function openPrev()  { document.getElementById('prevModal').classList.add('open'); }
+function closePrev() { document.getElementById('prevModal').classList.remove('open'); }
+function closePrevOutside(e) { if (e.target === document.getElementById('prevModal')) closePrev(); }
+
+// State
+const pvQty   = { 'gin-med':1, 'gin-trop':1, 'qnk':1 };
+const pvSel   = { 'gin-med':true, 'gin-trop':true, 'qnk':true, 'birre':false };
+const pvBeerQ = { ipazza:0, rockipa:0, paleale:0, scemay:0, imperial:0, tripel:0 };
+const pvPrices= { 'gin-med':33.55, 'gin-trop':33.55, 'qnk':30.50 };
+const pvCassa6= { 'gin-med':27.50*6*1.22, 'gin-trop':27.50*6*1.22, 'qnk':25.00*6*1.22 };
+
+function toggleProd(key) {
+  pvSel[key] = !pvSel[key];
+  const item = document.getElementById('ppi-' + key);
+  item.classList.toggle('selected', pvSel[key]);
+  item.querySelector('.prev-prod-check').textContent = pvSel[key] ? '✓' : '';
+  if (key === 'birre') {
+    const exp = document.getElementById('pv-beer-expand');
+    exp.classList.toggle('open', pvSel[key]);
+  }
+  pvUpdateTotale();
+}
+
+function pvChange(key, delta) {
+  pvQty[key] = Math.max(1, (pvQty[key] || 1) + delta);
+  const q = pvQty[key];
+  document.getElementById('pvc-' + key).textContent = q;
+  // calcola totale riga e nota cassa 6
+  const tot = pvPrices[key] * q;
+  const noteEl = document.getElementById('pvn-' + key);
+  if (q >= 6) {
+    noteEl.innerHTML = `<span style="color:#4DCB78">✓ cassa 6 — € ${tot.toFixed(2)}</span>`;
+  } else {
+    const rem = 6 - q;
+    noteEl.innerHTML = `€ ${tot.toFixed(2)} IVA<br><span style="color:#E0A040">+${rem} per cassa 6</span>`;
+  }
+  pvUpdateTotale();
+}
+
+function pvBeer(key, delta) {
+  pvBeerQ[key] = Math.max(0, pvBeerQ[key] + delta * 6);
+  document.getElementById('pvb-' + key).textContent = pvBeerQ[key];
+  const total = Object.values(pvBeerQ).reduce((a,b)=>a+b,0);
+  const noteEl = document.getElementById('pv-beer-note');
+  const totEl  = document.getElementById('pvn-birre');
+  if (total === 0) {
+    noteEl.textContent = 'Ogni referenza va a multipli di 6. Seleziona almeno una cassa.';
+    noteEl.style.color = 'var(--muted)';
+    totEl.innerHTML = '';
+  } else {
+    const casse = total / 6;
+    noteEl.textContent = `✓ ${total} pz — ${casse} ${casse === 1 ? 'cassa' : 'casse'} da 6. Totale € ${(total*3.05).toFixed(2)} IVA.`;
+    noteEl.style.color = '#4DCB78';
+    totEl.innerHTML = `<span style="color:#4DCB78">${total} pz · € ${(total*3.05).toFixed(2)}</span>`;
+  }
+  pvUpdateTotale();
+}
+    noteEl.style.color = '#4DCB78';
+    totEl.innerHTML = `<span style="color:#4DCB78">${total} pz · € ${(total*3.05).toFixed(2)}</span>`;
+  }
+  pvUpdateTotale();
+}
+
+function pvUpdateTotale() {
+  let tot = 0;
+  ['gin-med','gin-trop','qnk'].forEach(k => {
+    if (pvSel[k]) tot += pvPrices[k] * (pvQty[k]||1);
+  });
+  if (pvSel['birre']) {
+    const beerTotal = Object.values(pvBeerQ).reduce((a,b)=>a+b,0);
+    tot += beerTotal * 3.05;
+  }
+  document.getElementById('pv-totale').textContent = '€ ' + tot.toFixed(2).replace('.',',');
+}
+
+function generatePDF() {
+  const locale    = document.getElementById('pv-locale').value.trim();
+  const citta     = document.getElementById('pv-citta').value.trim();
+  const referente = document.getElementById('pv-referente').value.trim();
+  const tipo      = document.getElementById('pv-tipo').value;
+  const note      = document.getElementById('pv-note').value.trim();
+
+  if (!locale) {
+    const inp = document.getElementById('pv-locale');
+    inp.focus(); inp.style.borderColor='#C42B1A';
+    setTimeout(() => inp.style.borderColor='', 2000);
+    return;
+  }
+
+  // Costruisci lista prodotti selezionati con quantità
+  const prodList = [];
+  ['gin-med','gin-trop','qnk'].forEach(k => {
+    if (!pvSel[k]) return;
+    const qty = pvQty[k] || 1;
+    prodList.push({ key:k, qty });
+  });
+  const beerTotal = Object.values(pvBeerQ).reduce((a,b)=>a+b,0);
+  if (pvSel['birre'] && beerTotal > 0) {
+    prodList.push({ key:'birre', qty: beerTotal, beerBreakdown: {...pvBeerQ} });
+  }
+
+  if (prodList.length === 0) return;
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  const W = 210, H = 297;
+  const ML = 18, MR = 18, MT = 20;
+  let y = MT;
+
+  const ink   = [8,7,5];
+  const gold  = [200,160,53];
+  const cream = [237,232,222];
+  const muted = [122,114,101];
+  const border= [34,31,24];
+  const red   = [196,43,26];
+  const green = [37,180,80];
+
+  function setFont(style, size, color) {
+    doc.setFont('helvetica', style);
+    doc.setFontSize(size);
+    doc.setTextColor(...(color||cream));
+  }
+  function rule(yy, col) {
+    doc.setDrawColor(...(col||gold)); doc.setLineWidth(0.25);
+    doc.line(ML, yy, W-MR, yy);
+  }
+  function fillRect(x,y,w,h,fill) {
+    doc.setFillColor(...fill); doc.rect(x,y,w,h,'F');
+  }
+
+  // Bg + accent bar
+  fillRect(0,0,W,H,ink);
+  fillRect(0,0,3,H,gold);
+  fillRect(3,0,W-3,46,[12,10,7]);
+
+  // Eyebrow
+  setFont('bold',7,gold);
+  doc.setCharSpace(2);
+  doc.text('LISTINO RISERVATO  ·  HORECA  ·  CONFIDENZIALE', ML+3, MT);
+  doc.setCharSpace(0);
+
+  // Brand
+  setFont('bold',28,cream);
+  doc.text('Premium', ML+3, MT+11);
+  setFont('normal',28,gold);
+  doc.text(' Craft', ML+3+doc.getTextWidth('Premium'), MT+11);
+
+  setFont('italic',9,muted);
+  doc.text('Spirits · Bitters · Craft Beer · Produzione Propria · Sud Italia', ML+3, MT+18);
+
+  rule(MT+23, gold);
+
+  const oggi = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
+  setFont('bold',7,muted); doc.setCharSpace(1);
+  doc.text('PREVENTIVO DEL', W-MR-58, MT+8); doc.setCharSpace(0);
+  setFont('normal',10,cream); doc.text(oggi, W-MR-58, MT+14);
+  setFont('bold',7,gold); doc.setCharSpace(1);
+  doc.text('VALIDO 30 GIORNI', W-MR-58, MT+20); doc.setCharSpace(0);
+
+  y = 54;
+
+  // Dati locale
+  fillRect(ML,y,W-ML-MR,28,[15,12,8]);
+  doc.setDrawColor(...border); doc.setLineWidth(0.2);
+  doc.rect(ML,y,W-ML-MR,28);
+  fillRect(ML,y,2,28,gold);
+  setFont('bold',7,gold); doc.setCharSpace(2);
+  doc.text('DESTINATARIO', ML+6, y+7); doc.setCharSpace(0);
+  setFont('bold',7,muted);
+  doc.text('LOCALE:', ML+6, y+14);
+  setFont('normal',11,cream);
+  doc.text(locale, ML+22, y+14);
+  if (citta) { setFont('bold',7,muted); doc.text('CITTÀ:', ML+6+64, y+14); setFont('normal',11,cream); doc.text(citta, ML+6+64+14, y+14); }
+  if (referente) { setFont('bold',7,muted); doc.text('REF.:', ML+6, y+21); setFont('normal',10,cream); doc.text(referente, ML+18, y+21); }
+  if (tipo) { setFont('bold',7,muted); doc.text('TIPO:', ML+6+64, y+21); setFont('normal',10,cream); doc.text(tipo, ML+6+64+12, y+21); }
+
+  y += 35;
+
+  // Intestazione tabella prodotti
+  setFont('bold',8,gold); doc.setCharSpace(2);
+  doc.text('PRODOTTI ORDINATI', ML, y); doc.setCharSpace(0);
+  rule(y+3,border);
+  y += 10;
+
+  // Colonne header
+  fillRect(ML, y, W-ML-MR, 7, [20,17,13]);
+  setFont('bold',6.5,[...muted]); doc.setCharSpace(1.5);
+  doc.text('PRODOTTO', ML+4, y+4.5);
+  doc.text('QTÀ', W-MR-52, y+4.5);
+  doc.text('UNIT. IVA', W-MR-36, y+4.5);
+  doc.text('TOTALE IVA', W-MR-16, y+4.5);
+  doc.setCharSpace(0);
+  y += 7;
+
+  const prodData = {
+    'gin-med':  { nome:'Trupija "Mediterraneo"',  sub:'Dry Gin · 41% Vol. · Zero Zuccheri',    netto:27.50, ivato:33.55, accent:gold },
+    'gin-trop': { nome:'Trupija "Tropicale"',      sub:'Gin · 41% Vol. · Zero Zuccheri',        netto:27.50, ivato:33.55, accent:[74,158,58] },
+    'qnk':      { nome:'QNK "Cuncappa"',           sub:'Amaro · 30% Vol. · Sugar Free',         netto:25.00, ivato:30.50, accent:red },
+    'birre':    { nome:'Freeddacala Craft Beer',   sub:'Cassa mista · Non filtrate · 33 cl',    netto:2.50,  ivato:3.05,  accent:[72,120,204] }
+  };
+
+  let grandTotal = 0;
+  prodList.forEach((item, i) => {
+    const p = prodData[item.key];
+    const rowH = (item.key === 'birre' && item.beerBreakdown) ? 26 : 14;
+    const bg = i%2===0 ? [14,11,8] : [18,14,10];
+    fillRect(ML, y, W-ML-MR, rowH, bg);
+    doc.setDrawColor(...border); doc.setLineWidth(0.15);
+    doc.rect(ML, y, W-ML-MR, rowH);
+    fillRect(ML, y, 2, rowH, p.accent);
+
+    setFont('bold', 10, cream);
+    doc.text(p.nome, ML+5, y+6);
+    setFont('normal', 7.5, muted);
+    doc.text(p.sub, ML+5, y+11);
+
+    // Beer breakdown
+    if (item.key === 'birre' && item.beerBreakdown) {
+      const beerNames = { ipazza:'I Pazza', rockipa:'Rock IPA', paleale:'Pale Ale', scemay:'Scemay', imperial:'Imperial IPA', tripel:'Tri Pel' };
+      const beerStr = Object.entries(item.beerBreakdown)
+        .filter(([,v])=>v>0)
+        .map(([k,v])=>`${beerNames[k]} ×${v}`)
+        .join('  ·  ');
+      setFont('italic', 7, muted);
+      doc.text(beerStr, ML+5, y+17);
+    }
+
+    // Quantità
+    setFont('bold', 11, cream);
+    doc.text(String(item.qty), W-MR-50, y+7);
+
+    // Prezzo unitario
+    setFont('normal', 10, [...muted.map(v=>v+20)]);
+    doc.text('€ ' + p.ivato.toFixed(2), W-MR-38, y+7);
+
+    // Totale riga
+    const rigaTot = p.ivato * item.qty;
+    grandTotal += rigaTot;
+
+    const isCassa6 = item.key !== 'birre' && item.qty >= 6;
+    setFont('bold', 11, isCassa6 ? green : cream);
+    doc.text('€ ' + rigaTot.toFixed(2), W-MR-18, y+7);
+    if (isCassa6) {
+      setFont('bold', 6.5, green); doc.setCharSpace(0.5);
+      doc.text('✓ CASSA 6', W-MR-18, y+11.5); doc.setCharSpace(0);
+    }
+
+    y += rowH;
+  });
+
+  // Nota cassa 6 spirits
+  const hasSpirits = prodList.some(p => ['gin-med','gin-trop','qnk'].includes(p.key) && p.qty < 6);
+  if (hasSpirits) {
+    fillRect(ML, y, W-ML-MR, 8, [16,13,9]);
+    doc.setDrawColor(...gold); doc.setLineWidth(0.3);
+    doc.rect(ML, y, W-ML-MR, 8);
+    setFont('italic', 7.5, gold);
+    doc.text('💡  Ordini da 6 bottiglie: cassa completa con spedizione inclusa e priorità consegna.', ML+5, y+5);
+    y += 8;
+  }
+
+  // Totale finale
+  fillRect(ML, y, W-ML-MR, 12, [22,17,10]);
+  doc.setDrawColor(...gold); doc.setLineWidth(0.4);
+  doc.rect(ML, y, W-ML-MR, 12);
+  fillRect(ML, y, 2, 12, gold);
+  setFont('bold', 8, muted); doc.setCharSpace(1.5);
+  doc.text('TOTALE ORDINE (IVA INCLUSA)', ML+6, y+7); doc.setCharSpace(0);
+  setFont('bold', 14, gold);
+  doc.text('€ ' + grandTotal.toFixed(2), W-MR-26, y+8);
+  y += 18;
+
+  // Condizioni
+  if (y > H - 52) { doc.addPage(); fillRect(0,0,W,H,ink); fillRect(0,0,3,H,gold); y = MT; }
+
+  fillRect(ML,y,W-ML-MR,24,[15,12,8]);
+  doc.setDrawColor(...border); doc.rect(ML,y,W-ML-MR,24);
+  fillRect(ML,y,2,24,gold);
+  setFont('bold',7,gold); doc.setCharSpace(2);
+  doc.text('CONDIZIONI', ML+6, y+7); doc.setCharSpace(0);
+  const conds = [
+    'Pagamento: bonifico 30gg d.f.f.m. — prima fornitura: anticipato o contrassegno',
+    'Spirits: nessun minimo.  Birre: cassa mista 24 pz, composizione libera',
+    'Spedizione: franco magazzino su ordini ≥ 12 bottiglie spirits',
+  ];
+  conds.forEach((c,i) => {
+    const cx = i<2 ? ML+6 : ML+6;
+    const row = Math.floor(i/1);
+    setFont('normal', 7.5, muted);
+    doc.text(c, ML+6, y+12+i*5);
+  });
+  y += 30;
+
+  // Note
+  if (note) {
+    fillRect(ML,y,W-ML-MR,16,[15,12,8]);
+    doc.setDrawColor(...border); doc.rect(ML,y,W-ML-MR,16);
+    fillRect(ML,y,2,16,muted);
+    setFont('bold',7,gold); doc.setCharSpace(2);
+    doc.text('NOTE', ML+6, y+7); doc.setCharSpace(0);
+    setFont('italic', 8, cream);
+    doc.text(doc.splitTextToSize(note, W-ML-MR-12), ML+6, y+12);
+    y += 22;
+  }
+
+  y += 2;
+
+  // Footer CTA
+  fillRect(ML,y,W-ML-MR,20,[20,15,8]);
+  doc.setDrawColor(...gold); doc.setLineWidth(0.4);
+  doc.rect(ML,y,W-ML-MR,20);
+  fillRect(ML,y,2,20,gold);
+  setFont('bold',9,gold);
+  doc.text('Invia questo PDF su WhatsApp per procedere', ML+8, y+8);
+  setFont('normal',9,cream);
+  doc.text('+39 351 651 3239  ·  Risposta garantita in giornata', ML+8, y+15);
+
+  // Page footer
+  setFont('bold',6,[40,35,28]); doc.setCharSpace(1);
+  doc.text('PREMIUM CRAFT  ·  LISTINO RISERVATO HORECA  ·  CONFIDENZIALE', ML+3, H-8);
+  doc.text(oggi, W-MR-24, H-8); doc.setCharSpace(0);
+
+  const filename = `PremiumCraft_Preventivo_${locale.replace(/\s+/g,'-')}_${new Date().toISOString().slice(0,10)}.pdf`;
+  doc.save(filename);
+  closePrev();
+}
 </script>
 </body>
 </html>
