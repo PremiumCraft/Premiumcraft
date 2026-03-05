@@ -590,6 +590,74 @@ body::after {
 .footer a { color:inherit; text-decoration:none; transition:opacity var(--trans); }
 .footer a:hover { opacity:1; }
 
+/* ── PERFECT SERVING ─────────────────────────────────────────────────── */
+.serving-wrap {
+  margin-top:28px; margin-bottom:0;
+}
+.serving-head {
+  display:flex; align-items:center; gap:14px; margin-bottom:0;
+  padding:12px 0 11px;
+  border-top:1px solid var(--border);
+}
+.serving-eyebrow {
+  font-size:9px; font-weight:700; letter-spacing:0.38em; text-transform:uppercase;
+  color:var(--gold); display:flex; align-items:center; gap:10px;
+}
+.serving-eyebrow::before {
+  content:''; display:block; width:18px; height:1px; background:var(--gold); opacity:0.45;
+}
+.serving-sub {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:12.5px; color:var(--muted); margin-left:auto; letter-spacing:0.03em;
+}
+
+.serving-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+  border:1px solid var(--border); border-top:none;
+}
+.serving-card {
+  padding:20px 22px; border-right:1px solid var(--border);
+  position:relative; overflow:hidden;
+  transition:background var(--trans);
+}
+.serving-card:last-child { border-right:none; }
+.serving-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--acc); transform:scaleX(0); transform-origin:left;
+  transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);
+}
+.serving-card:hover { background:var(--hover); }
+.serving-card:hover::before { transform:scaleX(1); }
+
+.sv-num {
+  font-family:'Cormorant Garamond',serif; font-size:52px; font-weight:700;
+  line-height:1; color:var(--border); margin-bottom:10px;
+  transition:color var(--trans);
+}
+.serving-card:hover .sv-num { color:rgba(200,160,53,0.12); }
+.sv-name {
+  font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600;
+  color:var(--text); letter-spacing:0.03em; margin-bottom:3px;
+}
+.sv-occasion {
+  font-size:8px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--acc); margin-bottom:12px;
+}
+.sv-recipe {
+  font-size:10.5px; color:var(--muted); line-height:1.65;
+  margin-bottom:12px;
+}
+.sv-recipe strong { color:var(--text); font-weight:600; }
+.sv-why {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:12.5px; color:var(--muted); line-height:1.55;
+  padding-top:10px; border-top:1px solid var(--border);
+}
+
+/* Amaro variant accent */
+.serving-amaro .serving-card::before { background:#C42B1A; }
+.serving-amaro .sv-occasion { color:#C42B1A; }
+
 /* ── THEME COLORS ────────────────────────────────────────────────────── */
 body.theme-gin {
   --ink:#080C12; --surface:#0B0F18; --border:#1A2236; --muted:#7280A0;
@@ -657,6 +725,9 @@ body.theme-birre {
   .header-right { text-align:left; }
   .grid-2col { grid-template-columns:1fr; }
   .grid-2col .card:nth-child(odd) { border-right:none; }
+  .serving-grid { grid-template-columns:1fr; }
+  .serving-card { border-right:none; border-bottom:1px solid var(--border); }
+  .serving-card:last-child { border-bottom:none; }
   .card { grid-template-columns:1fr; gap:16px; }
   .price-block { min-width:0; }
   .p-row,.d-row { align-items:flex-start; }
@@ -686,7 +757,7 @@ body.theme-birre {
       -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .tabs, .modal-overlay, .config-wrap, .calc-btn, .wa-btn, .config-order-btn, .story-wa-btn { display:none !important; }
   .tab-panel { display:block !important; }
-  #panel-amaro, #panel-birre { page-break-before:always; }
+  #panel-amaro, #panel-birre, #panel-chisiamo { page-break-before:always; }
   .card, .birra-card, .why-strip, .brand-story { page-break-inside:avoid; }
   .page { padding:0; }
   .footer { opacity:1 !important; }
@@ -730,6 +801,10 @@ body.theme-birre {
   <div class="tab-sep"></div>
   <button class="tab-btn" data-tab="birre" data-theme="theme-birre" role="tab" aria-selected="false">
     <span class="tab-icon">◆</span>Birre Craft
+  </button>
+  <div class="tab-sep"></div>
+  <button class="tab-btn" data-tab="chisiamo" data-theme="theme-gin" role="tab" aria-selected="false">
+    <span class="tab-icon">◆</span>Chi Siamo
   </button>
 </nav>
 
@@ -841,6 +916,109 @@ body.theme-birre {
     </div>
   </div>
 
+  <!-- PERFECT SERVING: GIN -->
+  <div class="serving-wrap">
+    <div class="serving-head">
+      <div class="serving-eyebrow">Perfect Serving</div>
+      <div class="serving-sub">Tre modi per portarlo al tavolo — nessun shaker richiesto per i primi due</div>
+    </div>
+    <div class="serving-grid">
+
+      <div class="serving-card">
+        <div class="sv-num">01</div>
+        <div class="sv-name">G&T Mediterraneo</div>
+        <div class="sv-occasion">Aperitivo · Sempre ordinabile</div>
+        <div class="sv-recipe">
+          <strong>6 cl</strong> Trupija Mediterraneo &nbsp;·&nbsp;
+          <strong>15 cl</strong> tonica premium (Fever-Tree Mediterranean o Indian)<br>
+          Calice a palloncino, ghiaccio abbondante.<br>
+          Garnish: <strong>rametto di rosmarino fresco</strong> + scorza di limone espressa.
+        </div>
+        <div class="sv-why">Il rosmarino selvatico nel gin rispecchia il garnish — il cliente lo percepisce senza che tu lo spieghi. Quattro ingredienti, nessun errore possibile.</div>
+      </div>
+
+      <div class="serving-card">
+        <div class="sv-num">02</div>
+        <div class="sv-name">Dry Martini Salino</div>
+        <div class="sv-occasion">Pre-cena · Alta marginalità</div>
+        <div class="sv-recipe">
+          <strong>7 cl</strong> Trupija Mediterraneo &nbsp;·&nbsp;
+          <strong>1 cl</strong> vermouth dry<br>
+          Stirred 30 secondi su ghiaccio. Coppetta fredda.<br>
+          Garnish: <strong>2 olive verdi in salamoia</strong> — la salinità amplifica il gin.
+        </div>
+        <div class="sv-why">Il profilo salino-erbaceo del Mediterraneo regge il Dry Martini da solo. La dose di vermouth è quasi simbolica — il gin fa tutto il lavoro.</div>
+      </div>
+
+      <div class="serving-card">
+        <div class="sv-num">03</div>
+        <div class="sv-name">Negroni Calabrese</div>
+        <div class="sv-occasion">Signature · Differenziante</div>
+        <div class="sv-recipe">
+          <strong>3 cl</strong> Trupija Mediterraneo &nbsp;·&nbsp;
+          <strong>3 cl</strong> Campari &nbsp;·&nbsp;
+          <strong>3 cl</strong> QNK Cuncappa <em>(al posto del vermouth rosso)</em><br>
+          Stirred, rocks glass, <strong>grande cubo di ghiaccio</strong>.<br>
+          Garnish: scorza d'arancia espressa.
+        </div>
+        <div class="sv-why">Sostituire il vermouth con QNK porta l'amaro secco nel Negroni — più lungo, più amaro, meno dolce. Un Negroni che racconta entrambi i prodotti in un drink.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PERFECT SERVING: TROPICALE -->
+  <div class="serving-wrap" style="margin-top:0; border-top:1px solid var(--border);">
+    <div class="serving-head" style="border-top:none; padding-top:14px;">
+      <div class="serving-eyebrow" style="color:#4A9E3A;">Perfect Serving</div>
+      <div class="serving-sub" style="color:#4A9E3A; opacity:0.7;">Trupija Tropicale — tre serve che sfruttano il contrasto profumo/secchezza</div>
+    </div>
+    <div class="serving-grid">
+
+      <div class="serving-card" style="--acc:#4A9E3A;">
+        <div class="sv-num">01</div>
+        <div class="sv-name">G&T Tropicale</div>
+        <div class="sv-occasion" style="color:#4A9E3A;">Aperitivo · Zero difficoltà</div>
+        <div class="sv-recipe">
+          <strong>6 cl</strong> Trupija Tropicale &nbsp;·&nbsp;
+          <strong>15 cl</strong> Fever-Tree Elderflower o Ginger Beer<br>
+          Calice a palloncino, ghiaccio in cubo.<br>
+          Garnish: <strong>fetta di mango fresco</strong> o ananas — amplifica il naso tropicale.
+        </div>
+        <div class="sv-why">Il contrasto è il drink: naso esotico, sorso completamente secco. Il cliente che lo ordina una volta lo spiega da solo al tavolo accanto.</div>
+      </div>
+
+      <div class="serving-card" style="--acc:#4A9E3A;">
+        <div class="sv-num">02</div>
+        <div class="sv-name">Sour Tropicale</div>
+        <div class="sv-occasion" style="color:#4A9E3A;">Dopocena · Vende da solo</div>
+        <div class="sv-recipe">
+          <strong>5 cl</strong> Trupija Tropicale &nbsp;·&nbsp;
+          <strong>2,5 cl</strong> succo di lime fresco &nbsp;·&nbsp;
+          <strong>1,5 cl</strong> sciroppo di zucchero<br>
+          Shaker con ghiaccio, doppio filtraggio. Coupe o rocks.<br>
+          Garnish: <strong>fetta di lime + sale di Maldon</strong> sul bordo.
+        </div>
+        <div class="sv-why">Tre ingredienti, tecnica minima. Il sale sul bordo esalta la secchezza del gin — il cliente percepisce la qualità senza che tu la dichiari.</div>
+      </div>
+
+      <div class="serving-card" style="--acc:#4A9E3A;">
+        <div class="sv-num">03</div>
+        <div class="sv-name">Spritz Selvatico</div>
+        <div class="sv-occasion" style="color:#4A9E3A;">Aperitivo alternativo · Alta rotazione</div>
+        <div class="sv-recipe">
+          <strong>4 cl</strong> Trupija Tropicale &nbsp;·&nbsp;
+          <strong>6 cl</strong> Prosecco secco &nbsp;·&nbsp;
+          <strong>2 cl</strong> Aperol<br>
+          Calice da vino, ghiaccio, spruzzata di acqua frizzante.<br>
+          Garnish: <strong>fetta d'arancia</strong> + fogliolina di menta.
+        </div>
+        <div class="sv-why">Per il cliente che non vuole "un altro Aperol Spritz" — stessa occasione di consumo, profilo completamente diverso. Il gin giustifica il premium di prezzo sul bicchiere.</div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="why-strip">
     <div class="why-item">
       <div class="why-kpi">Rotazione</div>
@@ -926,6 +1104,55 @@ body.theme-birre {
           Richiedi campionatura
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- PERFECT SERVING: AMARO -->
+  <div class="serving-wrap">
+    <div class="serving-head">
+      <div class="serving-eyebrow serving-amaro" style="color:#C42B1A;">Perfect Serving</div>
+      <div class="serving-sub">Tre modi — dal più semplice al più identitario</div>
+    </div>
+    <div class="serving-grid serving-amaro">
+
+      <div class="serving-card">
+        <div class="sv-num">01</div>
+        <div class="sv-name">Liscio su Ghiaccio</div>
+        <div class="sv-occasion" style="color:#C42B1A;">Digestivo · Massima marginalità</div>
+        <div class="sv-recipe">
+          <strong>5 cl</strong> QNK Cuncappa<br>
+          Rocks glass, <strong>un singolo cubo grande</strong> di ghiaccio.<br>
+          Nessun garnish — il colore fa già tutto il lavoro visivo.
+        </div>
+        <div class="sv-why">Quando l'amaro non è corretto con zucchero, il ghiaccio che scioglie è un vantaggio: dilata lentamente il profilo invece di annacquarlo. Il cliente lo sente evolvere nel bicchiere.</div>
+      </div>
+
+      <div class="serving-card">
+        <div class="sv-num">02</div>
+        <div class="sv-name">QNK Tonic</div>
+        <div class="sv-occasion" style="color:#C42B1A;">Aperitivo · Alternativo allo Spritz</div>
+        <div class="sv-recipe">
+          <strong>4 cl</strong> QNK Cuncappa &nbsp;·&nbsp;
+          <strong>12 cl</strong> Fever-Tree Indian Tonic<br>
+          Calice a palloncino, ghiaccio abbondante.<br>
+          Garnish: <strong>scorza d'arancia</strong> espressa + anice stellato.
+        </div>
+        <div class="sv-why">La tonica neutra lascia parlare le botaniche — Rabarbaro, Genziana e Assenzio emergono senza interferenze. Un aperitivo adulto per chi è stanco dello Spritz.</div>
+      </div>
+
+      <div class="serving-card">
+        <div class="sv-num">03</div>
+        <div class="sv-name">Black Manhattan</div>
+        <div class="sv-occasion" style="color:#C42B1A;">Signature · Racconta il prodotto</div>
+        <div class="sv-recipe">
+          <strong>5 cl</strong> Bourbon o Rye &nbsp;·&nbsp;
+          <strong>3 cl</strong> QNK Cuncappa<br>
+          Stirred 30 sec su ghiaccio. Rocks glass, cubo grande.<br>
+          Garnish: <strong>ciliegia al maraschino</strong> + scorza d'arancia.
+        </div>
+        <div class="sv-why">QNK sostituisce vermouth + amaro in un colpo solo. La struttura secca regge il whiskey senza sparire — il drink funziona perché il prodotto ha carattere proprio.</div>
+      </div>
+
     </div>
   </div>
 
@@ -1196,9 +1423,10 @@ body.theme-birre {
 </div><!-- /panel-birre -->
 
 <!-- ══════════════════════════════════════════════════════════════════════
-     BRAND STORY — sempre visibile
+     PANEL: CHI SIAMO
 ════════════════════════════════════════════════════════════════════════ -->
-<div class="brand-story">
+<div class="tab-panel" id="panel-chisiamo" role="tabpanel">
+<div class="brand-story" style="margin-top:0;">
   <div class="brand-story-eyebrow">Chi siamo</div>
   <div class="story-grid">
     <div class="story-main">
@@ -1262,6 +1490,7 @@ body.theme-birre {
     </div>
   </div>
 </div>
+</div><!-- /panel-chisiamo -->
 
 <!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
 <footer class="footer">
