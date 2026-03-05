@@ -2139,12 +2139,7 @@ function pvChange(key, delta) {
   // calcola totale riga e nota cassa 6
   const tot = pvPrices[key] * q;
   const noteEl = document.getElementById('pvn-' + key);
-  if (q >= 6) {
-    noteEl.innerHTML = `<span style="color:#4DCB78">✓ cassa 6 — € ${tot.toFixed(2)}</span>`;
-  } else {
-    const rem = 6 - q;
-    noteEl.innerHTML = `€ ${tot.toFixed(2)} IVA<br><span style="color:#E0A040">+${rem} per cassa 6</span>`;
-  }
+  noteEl.innerHTML = `€ ${tot.toFixed(2)} IVA`;
   pvUpdateTotale();
 }
 
@@ -2161,11 +2156,6 @@ function pvBeer(key, delta) {
   } else {
     const casse = total / 6;
     noteEl.textContent = `✓ ${total} pz — ${casse} ${casse === 1 ? 'cassa' : 'casse'} da 6. Totale € ${(total*3.05).toFixed(2)} IVA.`;
-    noteEl.style.color = '#4DCB78';
-    totEl.innerHTML = `<span style="color:#4DCB78">${total} pz · € ${(total*3.05).toFixed(2)}</span>`;
-  }
-  pvUpdateTotale();
-}
     noteEl.style.color = '#4DCB78';
     totEl.innerHTML = `<span style="color:#4DCB78">${total} pz · € ${(total*3.05).toFixed(2)}</span>`;
   }
@@ -2348,27 +2338,13 @@ function generatePDF() {
     const rigaTot = p.ivato * item.qty;
     grandTotal += rigaTot;
 
-    const isCassa6 = item.key !== 'birre' && item.qty >= 6;
-    setFont('bold', 11, isCassa6 ? green : cream);
+    setFont('bold', 11, cream);
     doc.text('€ ' + rigaTot.toFixed(2), W-MR-18, y+7);
-    if (isCassa6) {
-      setFont('bold', 6.5, green); doc.setCharSpace(0.5);
-      doc.text('✓ CASSA 6', W-MR-18, y+11.5); doc.setCharSpace(0);
-    }
 
     y += rowH;
   });
 
-  // Nota cassa 6 spirits
-  const hasSpirits = prodList.some(p => ['gin-med','gin-trop','qnk'].includes(p.key) && p.qty < 6);
-  if (hasSpirits) {
-    fillRect(ML, y, W-ML-MR, 8, [16,13,9]);
-    doc.setDrawColor(...gold); doc.setLineWidth(0.3);
-    doc.rect(ML, y, W-ML-MR, 8);
-    setFont('italic', 7.5, gold);
-    doc.text('💡  Ordini da 6 bottiglie: cassa completa con spedizione inclusa e priorità consegna.', ML+5, y+5);
-    y += 8;
-  }
+
 
   // Totale finale
   fillRect(ML, y, W-ML-MR, 12, [22,17,10]);
