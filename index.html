@@ -691,6 +691,51 @@ body.theme-birre {
   .page { padding:0; }
   .footer { opacity:1 !important; }
 }
+
+/* ══ PREVENTIVO ══════════════════════════════════════════════════════════ */
+.prev-wrap { max-width:780px; margin:0 auto; padding:32px 0 48px; }
+.prev-header { margin-bottom:28px; }
+.prev-title { font-size:13px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+.prev-sub { font-size:13px; color:var(--muted); }
+.prev-section-label { font-size:9px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted); margin:28px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.prev-form { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.prev-field { display:flex; flex-direction:column; gap:5px; }
+.prev-label { font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); }
+.prev-input { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:9px 12px; font-size:13px; color:var(--ink); font-family:inherit; outline:none; transition:border-color 0.2s; }
+.prev-input:focus { border-color:var(--gold); }
+.prev-textarea { width:100%; box-sizing:border-box; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:10px 12px; font-size:13px; color:var(--ink); font-family:inherit; outline:none; resize:vertical; transition:border-color 0.2s; }
+.prev-textarea:focus { border-color:var(--gold); }
+.prev-products { display:flex; flex-direction:column; gap:0; }
+.prev-prod-group { border:1px solid var(--border); border-radius:6px; overflow:hidden; margin-bottom:12px; }
+.prev-prod-group-label { font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; padding:8px 14px; background:var(--surface); border-bottom:1px solid var(--border); }
+.prev-beer-note { font-size:11px; color:var(--muted); padding:6px 14px; background:var(--surface); border-bottom:1px solid var(--border); font-style:italic; }
+.prev-prod-row { display:flex; align-items:center; gap:14px; padding:11px 14px; border-bottom:1px solid var(--border); }
+.prev-prod-row:last-child { border-bottom:none; }
+.prev-prod-info { flex:1; min-width:0; }
+.prev-prod-name { font-size:13px; font-weight:600; color:var(--ink); }
+.prev-prod-sub { font-size:11px; color:var(--muted); margin-top:1px; }
+.prev-prod-price { font-size:13px; font-weight:700; color:var(--price,var(--gold)); white-space:nowrap; min-width:70px; text-align:right; }
+.prev-iva { font-size:9px; font-weight:400; color:var(--muted); }
+.prev-counter { display:flex; align-items:center; gap:8px; }
+.prev-btn { width:28px; height:28px; border-radius:50%; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-size:16px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color 0.2s, color 0.2s; }
+.prev-btn:hover { border-color:var(--gold); color:var(--gold); }
+.prev-qty { font-size:14px; font-weight:700; color:var(--ink); min-width:22px; text-align:center; }
+.prev-beer-total { padding:8px 14px; font-size:11px; color:var(--gold); background:var(--surface); border-top:1px solid var(--border); }
+.prev-total-bar { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:28px; padding:18px 20px; background:var(--surface); border:1px solid var(--border); border-radius:6px; border-left:3px solid var(--gold); }
+.prev-total-label { font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.prev-total-val { font-size:26px; font-weight:700; color:var(--gold); }
+.prev-actions { display:flex; gap:10px; flex-shrink:0; }
+.prev-action-btn { display:flex; align-items:center; gap:8px; padding:10px 18px; border-radius:4px; font-size:12px; font-weight:700; letter-spacing:0.08em; cursor:pointer; border:none; font-family:inherit; transition:opacity 0.2s; }
+.prev-action-btn:hover { opacity:0.85; }
+.prev-action-btn svg { width:16px; height:16px; flex-shrink:0; }
+.prev-pdf-btn { background:var(--surface); border:1px solid var(--gold) !important; color:var(--gold); }
+.prev-wa-btn { background:#25D366; color:#fff; }
+@media (max-width:600px) {
+  .prev-form { grid-template-columns:1fr; }
+  .prev-total-bar { flex-direction:column; align-items:flex-start; }
+  .prev-actions { width:100%; }
+  .prev-action-btn { flex:1; justify-content:center; }
+}
 </style>
 </head>
 
@@ -730,6 +775,14 @@ body.theme-birre {
   <div class="tab-sep"></div>
   <button class="tab-btn" data-tab="birre" data-theme="theme-birre" role="tab" aria-selected="false">
     <span class="tab-icon">◆</span>Birre Craft
+  </button>
+  <div class="tab-sep"></div>
+  <button class="tab-btn" data-tab="chisiamo" data-theme="" role="tab" aria-selected="false">
+    <span class="tab-icon">◆</span>Chi Siamo
+  </button>
+  <div class="tab-sep"></div>
+  <button class="tab-btn" data-tab="preventivo" data-theme="" role="tab" aria-selected="false">
+    <span class="tab-icon">◆</span>Preventivo
   </button>
 </nav>
 
@@ -1196,8 +1249,9 @@ body.theme-birre {
 </div><!-- /panel-birre -->
 
 <!-- ══════════════════════════════════════════════════════════════════════
-     BRAND STORY — sempre visibile
+     PANEL: CHI SIAMO
 ════════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-chisiamo" role="tabpanel">
 <div class="brand-story">
   <div class="brand-story-eyebrow">Chi siamo</div>
   <div class="story-grid">
@@ -1261,7 +1315,190 @@ body.theme-birre {
       </div>
     </div>
   </div>
-</div>
+</div><!-- /brand-story -->
+</div><!-- /panel-chisiamo -->
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PANEL: PREVENTIVO
+════════════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-preventivo" role="tabpanel">
+<div class="prev-wrap">
+
+  <div class="prev-header">
+    <div class="prev-title">◆ &nbsp;Genera Preventivo</div>
+    <div class="prev-sub">Compila i campi, seleziona i prodotti e invia direttamente su WhatsApp.</div>
+  </div>
+
+  <!-- DESTINATARIO -->
+  <div class="prev-section-label">Destinatario</div>
+  <div class="prev-form">
+    <div class="prev-field">
+      <label class="prev-label">Locale</label>
+      <input class="prev-input" id="pLocale" type="text" placeholder="Nome del locale">
+    </div>
+    <div class="prev-field">
+      <label class="prev-label">Città</label>
+      <input class="prev-input" id="pCitta" type="text" placeholder="Città">
+    </div>
+    <div class="prev-field">
+      <label class="prev-label">Referente</label>
+      <input class="prev-input" id="pRef" type="text" placeholder="Nome referente">
+    </div>
+    <div class="prev-field">
+      <label class="prev-label">Tipo locale</label>
+      <input class="prev-input" id="pTipo" type="text" placeholder="es. Ristorante, Bar, Beach Club…">
+    </div>
+  </div>
+
+  <!-- PRODOTTI -->
+  <div class="prev-section-label">Prodotti</div>
+  <div class="prev-products">
+
+    <!-- GIN -->
+    <div class="prev-prod-group">
+      <div class="prev-prod-group-label" style="color:var(--acc-gin,#5B8FE0)">Trupija Gin</div>
+      <div class="prev-prod-row">
+        <div class="prev-prod-info">
+          <div class="prev-prod-name">Trupija "Mediterraneo"</div>
+          <div class="prev-prod-sub">Dry Gin · 41% Vol. · Zero Zuccheri · 70 cl</div>
+        </div>
+        <div class="prev-prod-price">€ 33,55 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevChange('med',-1)">−</button>
+          <span class="prev-qty" id="pq-med">0</span>
+          <button class="prev-btn" onclick="prevChange('med',1)">+</button>
+        </div>
+      </div>
+      <div class="prev-prod-row">
+        <div class="prev-prod-info">
+          <div class="prev-prod-name">Trupija "Tropicale"</div>
+          <div class="prev-prod-sub">Gin · 41% Vol. · Zero Zuccheri · 70 cl</div>
+        </div>
+        <div class="prev-prod-price">€ 33,55 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevChange('trop',-1)">−</button>
+          <span class="prev-qty" id="pq-trop">0</span>
+          <button class="prev-btn" onclick="prevChange('trop',1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AMARO -->
+    <div class="prev-prod-group">
+      <div class="prev-prod-group-label" style="color:var(--acc-amaro,#D4832A)">Amaro QNK Cuncappa</div>
+      <div class="prev-prod-row">
+        <div class="prev-prod-info">
+          <div class="prev-prod-name">QNK "Cuncappa" — Senza Astuccio</div>
+          <div class="prev-prod-sub">Amaro · 30% Vol. · Sugar Free · 70 cl</div>
+        </div>
+        <div class="prev-prod-price">€ 30,50 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevChange('qnk_s',-1)">−</button>
+          <span class="prev-qty" id="pq-qnk_s">0</span>
+          <button class="prev-btn" onclick="prevChange('qnk_s',1)">+</button>
+        </div>
+      </div>
+      <div class="prev-prod-row">
+        <div class="prev-prod-info">
+          <div class="prev-prod-name">QNK "Cuncappa" — Con Astuccio</div>
+          <div class="prev-prod-sub">Amaro · 30% Vol. · Sugar Free · 70 cl</div>
+        </div>
+        <div class="prev-prod-price">€ 31,70 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevChange('qnk_c',-1)">−</button>
+          <span class="prev-qty" id="pq-qnk_c">0</span>
+          <button class="prev-btn" onclick="prevChange('qnk_c',1)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIRRE -->
+    <div class="prev-prod-group">
+      <div class="prev-prod-group-label" style="color:var(--acc-beer,#C8A035)">Freeddacala Craft Beer</div>
+      <div class="prev-beer-note">Le birre si ordinano in multipli di 6 per referenza — minimo cassa 24 pz totali.</div>
+      <div class="prev-prod-row prev-beer-row">
+        <div class="prev-prod-info"><div class="prev-prod-name">I Pazza</div><div class="prev-prod-sub">West Coast IPA · 6.0%</div></div>
+        <div class="prev-prod-price">€ 3,05 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevBeer('ipazza',-1)">−</button>
+          <span class="prev-qty" id="pb-ipazza">0</span>
+          <button class="prev-btn" onclick="prevBeer('ipazza',1)">+</button>
+        </div>
+      </div>
+      <div class="prev-prod-row prev-beer-row">
+        <div class="prev-prod-info"><div class="prev-prod-name">Rock IPA</div><div class="prev-prod-sub">Session IPA al Bergamotto · 4.5%</div></div>
+        <div class="prev-prod-price">€ 3,05 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevBeer('rockipa',-1)">−</button>
+          <span class="prev-qty" id="pb-rockipa">0</span>
+          <button class="prev-btn" onclick="prevBeer('rockipa',1)">+</button>
+        </div>
+      </div>
+      <div class="prev-prod-row prev-beer-row">
+        <div class="prev-prod-info"><div class="prev-prod-name">Pale Ale</div><div class="prev-prod-sub">Classic Pale Ale · 5.8%</div></div>
+        <div class="prev-prod-price">€ 3,05 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevBeer('paleale',-1)">−</button>
+          <span class="prev-qty" id="pb-paleale">0</span>
+          <button class="prev-btn" onclick="prevBeer('paleale',1)">+</button>
+        </div>
+      </div>
+      <div class="prev-prod-row prev-beer-row">
+        <div class="prev-prod-info"><div class="prev-prod-name">Scemay</div><div class="prev-prod-sub">Belgian Amber · 7.0%</div></div>
+        <div class="prev-prod-price">€ 3,05 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevBeer('scemay',-1)">−</button>
+          <span class="prev-qty" id="pb-scemay">0</span>
+          <button class="prev-btn" onclick="prevBeer('scemay',1)">+</button>
+        </div>
+      </div>
+      <div class="prev-prod-row prev-beer-row">
+        <div class="prev-prod-info"><div class="prev-prod-name">Imperial IPA</div><div class="prev-prod-sub">Double IPA · 7.5%</div></div>
+        <div class="prev-prod-price">€ 3,05 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevBeer('imperial',-1)">−</button>
+          <span class="prev-qty" id="pb-imperial">0</span>
+          <button class="prev-btn" onclick="prevBeer('imperial',1)">+</button>
+        </div>
+      </div>
+      <div class="prev-prod-row prev-beer-row">
+        <div class="prev-prod-info"><div class="prev-prod-name">Tri Pel</div><div class="prev-prod-sub">Tripel · 9.0%</div></div>
+        <div class="prev-prod-price">€ 3,05 <span class="prev-iva">IVA</span></div>
+        <div class="prev-counter">
+          <button class="prev-btn" onclick="prevBeer('tripel',-1)">−</button>
+          <span class="prev-qty" id="pb-tripel">0</span>
+          <button class="prev-btn" onclick="prevBeer('tripel',1)">+</button>
+        </div>
+      </div>
+      <div class="prev-beer-total" id="prevBeerTotal" style="display:none"></div>
+    </div>
+
+  </div><!-- /prev-products -->
+
+  <!-- NOTE -->
+  <div class="prev-section-label">Note (opzionale)</div>
+  <textarea class="prev-textarea" id="pNote" placeholder="es. campionatura omaggio, condizioni particolari, riferimento ordine…" rows="3"></textarea>
+
+  <!-- TOTALE -->
+  <div class="prev-total-bar">
+    <div>
+      <div class="prev-total-label">Totale ordine (IVA inclusa)</div>
+      <div class="prev-total-val" id="prevTotalVal">€ 0,00</div>
+    </div>
+    <div class="prev-actions">
+      <button class="prev-action-btn prev-pdf-btn" onclick="generatePrevPDF()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        Scarica PDF
+      </button>
+      <button class="prev-action-btn prev-wa-btn" onclick="sendPrevWA()">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.851L0 24l6.305-1.513A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.369l-.36-.213-3.722.893.933-3.617-.234-.372A9.818 9.818 0 1112 21.818z" fill="currentColor"/></svg>
+        Invia su WhatsApp
+      </button>
+    </div>
+  </div>
+
+</div><!-- /prev-wrap -->
+</div><!-- /panel-preventivo -->
 
 <!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
 <footer class="footer">
@@ -1480,6 +1717,217 @@ function sendWA(product, qty, type) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeCalc();
 });
+/* ══ PREVENTIVO ══════════════════════════════════════════════════════════ */
+const prevCounts = { med:0, trop:0, qnk_s:0, qnk_c:0 };
+const prevPrices = { med:33.55, trop:33.55, qnk_s:30.50, qnk_c:31.70 };
+const prevBeer   = { ipazza:0, rockipa:0, paleale:0, scemay:0, imperial:0, tripel:0 };
+const beerNames2 = { ipazza:'I Pazza', rockipa:'Rock IPA', paleale:'Pale Ale', scemay:'Scemay', imperial:'Imperial IPA', tripel:'Tri Pel' };
+
+function prevChange(key, delta) {
+  prevCounts[key] = Math.max(0, prevCounts[key] + delta);
+  document.getElementById('pq-' + key).textContent = prevCounts[key];
+  prevUpdateTotal();
+}
+
+function prevBeer(key, delta) {
+  prevBeer[key] = Math.max(0, prevBeer[key] + delta * 6);
+  document.getElementById('pb-' + key).textContent = prevBeer[key];
+  const totalBeer = Object.values(prevBeer).reduce((a,b)=>a+b,0);
+  const el = document.getElementById('prevBeerTotal');
+  if (totalBeer > 0) {
+    el.style.display = 'block';
+    el.textContent = `Totale cassa: ${totalBeer} pz${totalBeer < 24 ? ' — ancora ' + (24-totalBeer) + ' pz al minimo' : ' ✓'}`;
+  } else {
+    el.style.display = 'none';
+  }
+  prevUpdateTotal();
+}
+
+function prevUpdateTotal() {
+  let tot = 0;
+  for (const [k,v] of Object.entries(prevCounts)) tot += v * prevPrices[k];
+  const beerQty = Object.values(prevBeer).reduce((a,b)=>a+b,0);
+  tot += beerQty * 3.05;
+  document.getElementById('prevTotalVal').textContent = '€ ' + tot.toFixed(2).replace('.',',');
+}
+
+function prevGetData() {
+  const locale = document.getElementById('pLocale').value.trim() || '—';
+  const citta  = document.getElementById('pCitta').value.trim()  || '—';
+  const ref    = document.getElementById('pRef').value.trim()    || '—';
+  const tipo   = document.getElementById('pTipo').value.trim()   || '—';
+  const note   = document.getElementById('pNote').value.trim();
+  const lines  = [];
+  const spirits= [
+    ['Trupija "Mediterraneo"',  'Dry Gin · 41% Vol. · Zero Zuccheri',           'med',   33.55],
+    ['Trupija "Tropicale"',     'Gin · 41% Vol. · Zero Zuccheri',                'trop',  33.55],
+    ['QNK "Cuncappa" s/astuccio','Amaro · 30% Vol. · Sugar Free',               'qnk_s', 30.50],
+    ['QNK "Cuncappa" c/astuccio','Amaro · 30% Vol. · Sugar Free',               'qnk_c', 31.70],
+  ];
+  for (const [name,sub,key,price] of spirits) {
+    const qty = prevCounts[key];
+    if (qty > 0) lines.push({name,sub,qty,price,total:qty*price,beer:false});
+  }
+  const beerQty = Object.values(prevBeer).reduce((a,b)=>a+b,0);
+  if (beerQty > 0) {
+    const detail = Object.entries(prevBeer).filter(([,v])=>v>0).map(([k,v])=>`${beerNames2[k]} ×${v}`).join(' · ');
+    lines.push({name:'Freeddacala Craft Beer',sub:'Cassa mista · Non filtrate · 33 cl',detail,qty:beerQty,price:3.05,total:beerQty*3.05,beer:true});
+  }
+  const total = lines.reduce((a,l)=>a+l.total,0);
+  return {locale,citta,ref,tipo,note,lines,total};
+}
+
+function sendPrevWA() {
+  const d = prevGetData();
+  if (!d.lines.length) { alert('Seleziona almeno un prodotto.'); return; }
+  const today = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
+  let msg = `*PREVENTIVO PREMIUM CRAFT* — ${today}%0A%0A`;
+  msg += `*Locale:* ${d.locale} — ${d.citta}%0A`;
+  msg += `*Ref.:* ${d.ref} | *Tipo:* ${d.tipo}%0A%0A`;
+  msg += `*PRODOTTI:%0A*`;
+  for (const l of d.lines) {
+    if (l.beer) {
+      msg += `- ${l.name}: ${l.qty} pz (${l.detail}) — € ${l.total.toFixed(2)}%0A`;
+    } else {
+      msg += `- ${l.name} ×${l.qty} — € ${l.total.toFixed(2)} IVA%0A`;
+    }
+  }
+  msg += `%0A*TOTALE: € ${d.total.toFixed(2)} (IVA incl.)*%0A%0A`;
+  if (d.note) msg += `Note: ${d.note}%0A%0A`;
+  msg += `In attesa di conferma. Risposta garantita in giornata.`;
+  window.open('https://wa.me/393516513239?text=' + msg, '_blank');
+}
+
+function generatePrevPDF() {
+  const d = prevGetData();
+  if (!d.lines.length) { alert('Seleziona almeno un prodotto.'); return; }
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  script.onload = () => buildPDF(d);
+  document.head.appendChild(script);
+}
+
+function buildPDF(d) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:'mm', format:'a4' });
+  const W=210, ML=18, MR=18, CW=W-ML-MR;
+  const today = new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
+  let y = 0;
+
+  // Header band
+  doc.setFillColor(8,7,10); doc.rect(0,0,W,28,'F');
+  doc.setFillColor(200,160,53); doc.rect(0,27,W,0.5,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(6.5);
+  doc.setTextColor(120,114,104);
+  doc.text('LISTINO RISERVATO  ·  HORECA  ·  CONFIDENZIALE', ML, 8);
+  doc.setFont('helvetica','bold'); doc.setFontSize(22); doc.setTextColor(237,232,222);
+  doc.text('Premium', ML, 19);
+  const pw = doc.getTextWidth('Premium');
+  doc.setFont('helvetica','normal'); doc.setTextColor(200,160,53);
+  doc.text('Craft', ML+pw+3, 19);
+  doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(120,114,104);
+  doc.text('Spirits · Bitters · Craft Beer  ·  Produzione Propria · Sud Italia', ML, 25);
+  y = 36;
+
+  // Date + validity
+  doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(120,114,104);
+  doc.text('PREVENTIVO DEL', ML, y); doc.text('VALIDO 30 GIORNI', W-MR, y, {align:'right'});
+  doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(237,232,222);
+  doc.text(today, ML, y+6);
+  y += 16;
+
+  // Destinatario
+  doc.setFillColor(20,18,26); doc.rect(ML,y,CW,22,'F');
+  doc.setFillColor(200,160,53); doc.rect(ML,y,0.8,22,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(6); doc.setTextColor(120,114,104);
+  doc.text('DESTINATARIO', ML+4, y+5);
+  doc.setFontSize(9); doc.setTextColor(237,232,222);
+  doc.text(`LOCALE: ${d.locale}`, ML+4, y+11);
+  doc.text(`CITTÀ: ${d.citta}`, ML+4+CW*0.35, y+11);
+  doc.text(`REF.: ${d.ref}`, ML+4, y+17);
+  doc.text(`TIPO: ${d.tipo}`, ML+4+CW*0.35, y+17);
+  y += 28;
+
+  // Products table header
+  doc.setFillColor(14,12,18); doc.rect(ML,y,CW,7,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(6); doc.setTextColor(120,114,104);
+  doc.text('PRODOTTI ORDINATI', ML+3, y+4.5);
+  doc.text('QTÀ', ML+CW-52, y+4.5);
+  doc.text('UNIT. IVA', ML+CW-38, y+4.5);
+  doc.text('TOTALE IVA', ML+CW-14, y+4.5, {align:'right'});
+  y += 9;
+
+  // Product rows
+  for (const l of d.lines) {
+    doc.setFillColor(20,18,26); doc.rect(ML,y,CW,l.beer&&l.detail?16:14,'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(237,232,222);
+    doc.text(l.name, ML+3, y+5);
+    doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(120,114,104);
+    doc.text(l.sub, ML+3, y+10);
+    if (l.beer && l.detail) {
+      doc.setFontSize(6.5); doc.text(l.detail, ML+3, y+14.5);
+    }
+    const rh = l.beer&&l.detail?16:14;
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(237,232,222);
+    doc.text(String(l.qty), ML+CW-52, y+rh/2+3);
+    doc.text('€ ' + l.price.toFixed(2), ML+CW-38, y+rh/2+3);
+    doc.setTextColor(200,160,53);
+    doc.text('€ ' + l.total.toFixed(2), ML+CW-3, y+rh/2+3, {align:'right'});
+    y += rh+1;
+    doc.setDrawColor(35,31,46); doc.setLineWidth(0.3); doc.line(ML,y-1,ML+CW,y-1);
+  }
+  y += 4;
+
+  // Total
+  doc.setFillColor(8,7,10); doc.rect(ML,y,CW,12,'F');
+  doc.setFillColor(200,160,53); doc.rect(ML,y,0.8,12,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(120,114,104);
+  doc.text('TOTALE ORDINE (IVA INCLUSA)', ML+4, y+7.5);
+  doc.setFontSize(13); doc.setTextColor(200,160,53);
+  doc.text('€ ' + d.total.toFixed(2), ML+CW-3, y+8, {align:'right'});
+  y += 18;
+
+  // Conditions
+  doc.setFillColor(14,12,18); doc.rect(ML,y,CW,20,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(120,114,104);
+  doc.text('CONDIZIONI', ML+3, y+5);
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(180,172,158);
+  doc.text('Pagamento: bonifico 30gg d.f.f.m. — prima fornitura: anticipato o contrassegno', ML+3, y+10);
+  doc.text('Spirits: nessun minimo. Birre: cassa mista 24 pz, composizione libera', ML+3, y+15);
+  doc.text('Spedizione: franco magazzino su ordini ≥ 12 bottiglie spirits', ML+3, y+20);
+  y += 26;
+
+  // Note
+  if (d.note) {
+    doc.setFillColor(14,12,18); doc.rect(ML,y,CW,14,'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(120,114,104);
+    doc.text('NOTE', ML+3, y+5);
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(180,172,158);
+    const noteLines = doc.splitTextToSize(d.note, CW-6);
+    doc.text(noteLines, ML+3, y+11);
+    y += 14 + noteLines.length*4;
+  }
+
+  // CTA
+  doc.setFillColor(14,12,18); doc.rect(ML,y,CW,16,'F');
+  doc.setFillColor(200,160,53); doc.rect(ML,y,CW,0.5,'F');
+  doc.setFont('helvetica','italic'); doc.setFontSize(9); doc.setTextColor(180,172,158);
+  doc.text('Invia questo PDF su WhatsApp per procedere', W/2, y+7, {align:'center'});
+  doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(200,160,53);
+  doc.text('+39 351 651 3239  ·  Risposta garantita in giornata', W/2, y+13, {align:'center'});
+  y += 20;
+
+  // Footer band
+  doc.setFillColor(8,7,10); doc.rect(0,282,W,15,'F');
+  doc.setFillColor(200,160,53); doc.rect(0,282,W,0.4,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(6); doc.setTextColor(60,55,48);
+  doc.text('PREMIUM CRAFT  ·  LISTINO RISERVATO HORECA  ·  CONFIDENZIALE', ML, 288);
+  doc.text(today, W-MR, 288, {align:'right'});
+
+  const fname = `PremiumCraft_Preventivo_${d.locale.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`;
+  doc.save(fname);
+}
+
 </script>
 </body>
 </html>
